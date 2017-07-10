@@ -5,7 +5,7 @@
 {
   "name" : "ts-explorer",
   "reason" : {"react-jsx" : 2},
-  "bs-dependencies": ["reason-react", "bs-director", "bs-glamor"],
+  "bs-dependencies": ["reason-react", "bs-director", "bs-glamour"],
   "sources": [
     {
       "dir": "src",

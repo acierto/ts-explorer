@@ -15,7 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "bs-director": "^0.0.1",
-    "bs-glamor": "^0.1.0",
+    "bs-glamour": "^0.1.0",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "reason-react": ">=0.2.2"
