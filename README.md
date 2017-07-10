@@ -1,6 +1,6 @@
 
 ```
-git clone git@bitbucket.org:acierto/ts-explorer.git
+git clone git@github.com:acierto/ts-explorer.git
 cd ts-explorer
 npm install
 npm start
