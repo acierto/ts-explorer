@@ -1,0 +1,27 @@
+{
+  "name": "ts-explorer",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Type System explorer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "bsb -make-world -w",
+    "build": "webpack -w",
+    "clean": "bsb -clean-world"
+  },
+  "keywords": ["Type System", "Explorer", "XL Deploy"],
+  "author": "Bogdan Nechyporenko",
+  "license": "ISC",
+  "dependencies": {
+    "bs-director": "^0.0.1",
+    "bs-glamor": "^0.1.0",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "reason-react": ">=0.2.2"
+  },
+  "devDependencies": {
+    "bs-platform": "^1.8.0",
+    "webpack": "^1.14.0"
+  }
+}

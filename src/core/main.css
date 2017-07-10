@@ -1,0 +1,3 @@
+html {height: 100%}
+body {height: inherit; margin: 0; overflow: hidden;}
+body>div {height: inherit;}
