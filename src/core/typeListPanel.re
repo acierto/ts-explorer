@@ -25,7 +25,8 @@ let getItems keys selectedKey => {
         margin "5px",
         overflow "hidden",
         padding "10px",
-        textOverflow "ellipsis"
+        textOverflow "ellipsis",
+        whiteSpace "nowrap"
       ]
       mixin;
   Array.map
