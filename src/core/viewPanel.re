@@ -10,7 +10,7 @@ let viewPanelCls =
 let viewInnerPanelCls =
   css @@
   CssUtils.mixStyles
-    CssMixins.flexMixin [height "inherit", position "relative"];
+    CssMixins.flexRowMixin [height "inherit", position "relative"];
 
 let titleCls = css [fontSize "24px", textAlign "center"];
 
@@ -43,12 +43,10 @@ let make ::typeDescriptor=? ::propertyName ::onPropertyClick _children => {
     | Some typeDescriptorValue =>
       <div className=viewPanelCls>
         <div className=viewInnerPanelCls>
-          <div className=titleCls>
-            (ReasonReact.stringToElement typeDescriptorValue##_type)
-          </div>
           <PropertyList
             onPropertyClick
             properties=(sortProperties typeDescriptorValue##properties)
+            selectedPropertyName=propertyName
           />
           <PropertyDetails
             propertyDetails=(

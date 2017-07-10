@@ -6,44 +6,53 @@ external entries : Js.t {..} => array (array string) =
 let component = ReasonReact.statelessComponent "PropertyDetails";
 
 let propertyDetailsCls =
-  css [
-    display "inline-block",
-    left "260px",
-    position "absolute",
-    top "45px",
-    width "400px"
-  ];
+  css @@
+  CssUtils.mixStyles
+    CssMixins.flexMixin
+    [
+      border "solid 1px lightgrey",
+      margin "15px",
+      maxHeight "100%",
+      minHeight "0",
+      overflow "auto",
+      padding "0 15px",
+      width "auto"
+    ];
 
 let tableCls = css [borderSpacing "5px", display "table", width "auto"];
 
-let rowCls = css [display "table-row", width "auto"];
+let rowCls = css [display "table-row"];
 
-let cellCls = css [border "solid 1px", display "table-cell", width "200px"];
+let cellStyle = [display "table-cell", padding "10px", width "200px"];
+
+let keyCellCls =
+  css @@ CssUtils.mixStyles cellStyle [background "#e6f5ff", minWidth "150px"];
+
+let valueCellCls =
+  css @@ CssUtils.mixStyles cellStyle [wordBreak "break-word", width "auto"];
 
 let make ::propertyDetails _children => {
   ...component,
   render: fun _ =>
     <div className=propertyDetailsCls>
-      <span title=propertyDetails##name>
-        <div className=tableCls>
-          (
-            ReasonReact.arrayToElement (
-              Array.map
-                (
-                  fun entry =>
-                    <div key=entry.(0) className=rowCls>
-                      <div className=cellCls>
-                        (ReasonReact.stringToElement entry.(0))
-                      </div>
-                      <div className=cellCls>
-                        (ReasonReact.stringToElement entry.(1))
-                      </div>
+      <div className=tableCls>
+        (
+          ReasonReact.arrayToElement (
+            Array.map
+              (
+                fun entry =>
+                  <div key=entry.(0) className=rowCls>
+                    <div className=keyCellCls>
+                      (ReasonReact.stringToElement entry.(0))
                     </div>
-                )
-                (entries propertyDetails)
-            )
+                    <div className=valueCellCls>
+                      (ReasonReact.stringToElement entry.(1))
+                    </div>
+                  </div>
+              )
+              (entries propertyDetails)
           )
-        </div>
-      </span>
+        )
+      </div>
     </div>
 };

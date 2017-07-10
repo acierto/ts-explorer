@@ -2,22 +2,28 @@ open Glamor;
 
 let component = ReasonReact.statelessComponent "PropertyList";
 
+let propertyListContainerCls =
+  css [display "flex", flexFlow "column", height "inherit"];
+
+let propertyTitleCls =
+  css @@
+  CssUtils.mixStyles CssUtils.titleStyles [padding "0 30px", height "30px"];
+
 let propertyListCls =
-  css [
-    border "solid 1px lightgrey",
-    display "inline-block",
-    flexBasis "auto",
-    flexFlow "column nowrap",
-    flexGrow "1",
-    flexShrink "1",
-    height "0",
-    margin "15px",
-    maxHeight "100%",
-    minHeight "0",
-    overflow "auto",
-    padding "0 15px",
-    width "200px"
-  ];
+  css @@
+  CssUtils.mixStyles
+    CssMixins.flexMixin
+    [
+      border "solid 1px lightgrey",
+      margin "5px 15px",
+      maxHeight "100%",
+      maxWidth "200px",
+      minWidth "200px",
+      minHeight "0",
+      overflow "auto",
+      padding "0 10px",
+      width "200px"
+    ];
 
 let propertyCls =
   css [
@@ -32,21 +38,27 @@ let propertyCls =
       ]
   ];
 
-let make ::properties ::onPropertyClick _children => {
+let make ::properties ::selectedPropertyName ::onPropertyClick _children => {
   ...component,
   render: fun _ =>
-    <div className=propertyListCls onClick=onPropertyClick>
-      (
-        ReasonReact.arrayToElement (
-          Array.map
-            (
-              fun property => {
-                let propertyName = property##name;
-                <PropertyItem propertyName key=propertyName />
-              }
-            )
-            properties
+    <div className=propertyListContainerCls>
+      <div className=propertyTitleCls>
+        (ReasonReact.stringToElement "Properties")
+      </div>
+      <div className=propertyListCls onClick=onPropertyClick>
+        (
+          ReasonReact.arrayToElement (
+            Array.map
+              (
+                fun property => {
+                  let isSelected = property##name == selectedPropertyName;
+                  let propertyName = property##name;
+                  <PropertyItem propertyName key=propertyName isSelected />
+                }
+              )
+              properties
+          )
         )
-      )
+      </div>
     </div>
 };

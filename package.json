@@ -14,6 +14,7 @@
   "author": "Bogdan Nechyporenko",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "3.3.7",
     "bs-director": "^0.0.1",
     "bs-glamour": "^0.1.0",
     "react": "^15.4.2",

@@ -1,9 +1,11 @@
 open Glamor;
 
-let typeSystemPanelCls = css [height "inherit"];
+let typeSystemPanelCls =
+  css [display "flex", height "inherit", flexFlow "row"];
 
 type state = {
   keys: array string,
+  searchTypeTerm: string,
   selectedKey: string,
   selectedProperty: string
 };
@@ -11,6 +13,16 @@ type state = {
 let component = ReasonReact.statefulComponent "TypeSystem";
 
 type typeItems = array SharedTypes.typeItem;
+
+let handleSearchChange event {ReasonReact.state: state} => {
+  let searchTypeTerm = (
+                         ReactDOMRe.domElementToObj (
+                           ReactEventRe.Form.target event
+                         )
+                       )##value;
+  Js.log searchTypeTerm;
+  ReasonReact.Update {...state, searchTypeTerm}
+};
 
 let handleTypeClick event {ReasonReact.state: state} => {
   let selectedKey = (
@@ -48,14 +60,16 @@ let make ::data _children => {
   initialState: fun () => {
     let keys = Array.map (fun typeItem => typeItem##_type) data;
     Array.fast_sort compare keys;
-    {keys, selectedKey: "", selectedProperty: ""}
+    {keys, searchTypeTerm: "", selectedKey: "", selectedProperty: ""}
   },
   render: fun {state, update} => {
     let selectedType = findTypeByKey data key::state.selectedKey ();
     <div className=typeSystemPanelCls>
       <TypeListPanel
         selectedKey=state.selectedKey
+        searchCriteria=state.searchTypeTerm
         typeList=state.keys
+        onSearchChange=(update handleSearchChange)
         onItemClick=(update handleTypeClick)
       />
       <ViewPanel

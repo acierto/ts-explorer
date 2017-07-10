@@ -2,26 +2,64 @@ open Glamor;
 
 let component = ReasonReact.statelessComponent "TypeListPanel";
 
-let listOfItemsCls =
+let listOfItemsCls = css [display "flex", height "inherit", flexFlow "column"];
+
+let listOfItemsInnerCls = css [flex "1 100%", overflow "auto", width "200px"];
+
+let searchTypeCls =
   css [
-    cssFloat "left",
-    display "inline-block",
-    flex "0 0 auto",
-    height "inherit",
-    overflow "auto",
-    width "200px"
+    color "grey",
+    display "block",
+    height "40px",
+    position "relative",
+    Selector
+      "& i"
+      [
+        color "grey",
+        fontSize "24px",
+        left "10px",
+        position "absolute",
+        top "10px"
+      ]
   ];
 
-let listOfItemsInnerCls = css [display "inline-block", width "100%"];
+let searchInputCls =
+  css [
+    fontSize "13px",
+    margin "0 0 0 5px",
+    padding "10px 10px 10px 28px",
+    width "191px",
+    Selector ":focus" [outline "0"]
+  ];
 
-let getItems keys selectedKey => {
+let filterKeys keys term =>
+  if (term == "") {
+    keys
+  } else {
+    Array.fold_left
+      (
+        fun acc key =>
+          if (
+            StringUtils.contains (String.lowercase key) (String.lowercase term)
+          ) {
+            Array.append acc [|key|]
+          } else {
+            acc
+          }
+      )
+      [||]
+      keys
+  };
+
+let getItems keys selectedKey searchCriteria => {
   let itemCls mixin =>
     css @@
     CssUtils.mixStyles
       [
-        border "solid 1px rgb(51, 51, 51)",
-        color "rgb(51, 51, 51)",
+        border "solid 1px #337ab7",
+        color "#337ab7",
         cursor "pointer",
+        fontWeight "bold",
         margin "5px",
         overflow "hidden",
         padding "10px",
@@ -52,15 +90,36 @@ let getItems keys selectedKey => {
         </div>
       }
     )
-    keys
+    (filterKeys keys searchCriteria)
 };
 
-let make ::typeList ::onItemClick ::selectedKey _children => {
+let make
+    ::typeList
+    ::onItemClick
+    ::onSearchChange
+    ::selectedKey
+    ::searchCriteria
+    _children => {
   ...component,
   render: fun _ =>
-    <div className=listOfItemsCls onClick=onItemClick>
-      <div className=listOfItemsInnerCls>
-        (ReasonReact.arrayToElement @@ getItems typeList selectedKey)
+    <div className=listOfItemsCls>
+      <div className=(css CssUtils.titleStyles)>
+        (ReasonReact.stringToElement "Types")
+      </div>
+      <div className=searchTypeCls>
+        <i className="glyphicon glyphicon-search" />
+        <input
+          className=searchInputCls
+          _type="text"
+          placeholder="Search"
+          onChange=onSearchChange
+        />
+      </div>
+      <div className=listOfItemsInnerCls onClick=onItemClick>
+        (
+          ReasonReact.arrayToElement @@
+          getItems typeList selectedKey searchCriteria
+        )
       </div>
     </div>
 };
