@@ -20,7 +20,6 @@ let handleSearchChange event {ReasonReact.state: state} => {
                            ReactEventRe.Form.target event
                          )
                        )##value;
-  Js.log searchTypeTerm;
   ReasonReact.Update {...state, searchTypeTerm}
 };
 
