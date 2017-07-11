@@ -50,9 +50,8 @@ let make ::typeDescriptor=? ::propertyName ::onPropertyClick _children => {
           />
           <PropertyDetails
             propertyDetails=(
-                              getPropertyDetails
-                                typeDescriptorValue propertyName
-                            )
+              getPropertyDetails typeDescriptorValue propertyName
+            )
           />
         </div>
       </div>
