@@ -5,7 +5,7 @@ external entries : Js.t {..} => array (array string) =
 
 let component = ReasonReact.statelessComponent "PropertyDetails";
 
-let propertyDetailsCls =
+let scrollableAreaCls =
   css @@
   CssUtils.mixStyles
     CssMixins.flexMixin
@@ -34,25 +34,28 @@ let valueCellCls =
 let make ::propertyDetails _children => {
   ...component,
   render: fun _ =>
-    <div className=propertyDetailsCls>
-      <div className=tableCls>
-        (
-          ReasonReact.arrayToElement (
-            Array.map
-              (
-                fun entry =>
-                  <div key=entry.(0) className=rowCls>
-                    <div className=keyCellCls>
-                      (ReasonReact.stringToElement entry.(0))
+    <div className=SharedCss.flexContainerCls>
+      <PanelTitle text="Property Details" />
+      <div className=scrollableAreaCls>
+        <div className=tableCls>
+          (
+            ReasonReact.arrayToElement (
+              Array.map
+                (
+                  fun entry =>
+                    <div key=entry.(0) className=rowCls>
+                      <div className=keyCellCls>
+                        (ReasonReact.stringToElement entry.(0))
+                      </div>
+                      <div className=valueCellCls>
+                        (ReasonReact.stringToElement entry.(1))
+                      </div>
                     </div>
-                    <div className=valueCellCls>
-                      (ReasonReact.stringToElement entry.(1))
-                    </div>
-                  </div>
-              )
-              (entries propertyDetails)
+                )
+                (entries propertyDetails)
+            )
           )
-        )
+        </div>
       </div>
     </div>
 };

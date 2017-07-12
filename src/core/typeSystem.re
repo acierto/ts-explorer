@@ -29,7 +29,7 @@ let handleTypeClick event {ReasonReact.state: state} => {
                         ReactEventRe.Mouse.target event
                       )
                     )##innerText;
-  ReasonReact.Update {...state, selectedKey}
+  ReasonReact.Update {...state, selectedKey, selectedProperty: ""}
 };
 
 let handlePropertyClick event {ReasonReact.state: state} => {

@@ -21,18 +21,18 @@ let sortProperties itemProperties => {
   itemProperties
 };
 
-let getPropertyDetails typeDescriptor propertyName => {
+let getPropertyDetails typeDescriptor propertyName () => {
   let props = typeDescriptor##properties;
   Array.fold_left
     (
       fun acc x =>
         if (x##name == propertyName) {
-          x
+          Some x
         } else {
           acc
         }
     )
-    props.(0)
+    None
     props
 };
 
@@ -48,10 +48,16 @@ let make ::typeDescriptor=? ::propertyName ::onPropertyClick _children => {
             properties=(sortProperties typeDescriptorValue##properties)
             selectedPropertyName=propertyName
           />
-          <PropertyDetails
+          <OverviewPanel
+            description=typeDescriptorValue##description
+            icon=typeDescriptorValue##icon
+            interfaces=typeDescriptorValue##interfaces
             propertyDetails=(
-              getPropertyDetails typeDescriptorValue propertyName
+              getPropertyDetails typeDescriptorValue propertyName ()
             )
+            superTypes=typeDescriptorValue##superTypes
+            root=typeDescriptorValue##root
+            virtualType=typeDescriptorValue##_virtual
           />
         </div>
       </div>

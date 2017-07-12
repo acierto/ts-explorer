@@ -4,13 +4,15 @@ let component = ReasonReact.statelessComponent "TypeListPanel";
 
 let listOfItemsCls = css [display "flex", height "inherit", flexFlow "column"];
 
-let listOfItemsInnerCls = css [flex "1 100%", overflow "auto", width "200px"];
+let listOfItemsInnerCls =
+  css [flex "1 100%", overflow "auto", width SharedCss.panelSize];
 
 let searchTypeCls =
   css [
     color "grey",
     display "block",
     height "40px",
+    marginTop "5px",
     position "relative",
     Selector
       "& i"
@@ -27,8 +29,8 @@ let searchInputCls =
   css [
     fontSize "13px",
     margin "0 0 0 5px",
-    padding "10px 10px 10px 28px",
-    width "191px",
+    padding "9px 10px 9px 28px",
+    width (CssUtils.toPx @@ SharedCss.panelRawSize - 9),
     Selector ":focus" [outline "0"]
   ];
 
@@ -51,47 +53,19 @@ let filterKeys keys term =>
       keys
   };
 
-let getItems keys selectedKey searchCriteria => {
-  let itemCls mixin =>
-    css @@
-    CssUtils.mixStyles
-      [
-        border "solid 1px #337ab7",
-        color "#337ab7",
-        cursor "pointer",
-        fontWeight "bold",
-        margin "5px",
-        overflow "hidden",
-        padding "10px",
-        textOverflow "ellipsis",
-        whiteSpace "nowrap"
-      ]
-      mixin;
+let getItems keys selectedKey searchCriteria =>
   Array.map
     (
-      fun key => {
-        let mixin =
-          if (key == selectedKey) {
-            [backgroundColor "#337ab7", color "#fff"]
-          } else {
-            [
-              backgroundColor "#fff",
-              Selector
-                ":hover"
-                [
-                  color "#555",
-                  textDecoration "none",
-                  backgroundColor "#f5f5f5"
-                ]
-            ]
-          };
-        <div className=(itemCls mixin) key>
-          (ReasonReact.stringToElement key)
-        </div>
-      }
+      fun key =>
+        <PanelItem
+          color="#337ab7"
+          hoverColor="#286090"
+          isSelected=(key == selectedKey)
+          key
+          text=key
+        />
     )
-    (filterKeys keys searchCriteria)
-};
+    (filterKeys keys searchCriteria);
 
 let make
     ::typeList
@@ -103,9 +77,7 @@ let make
   ...component,
   render: fun _ =>
     <div className=listOfItemsCls>
-      <div className=(css CssUtils.titleStyles)>
-        (ReasonReact.stringToElement "Types")
-      </div>
+      <PanelTitle text="Types" />
       <div className=searchTypeCls>
         <i className="glyphicon glyphicon-search" />
         <input
