@@ -21,13 +21,7 @@ let getInterfaceItems interfaces =>
   Array.map
     (
       fun interface =>
-        <PanelItem
-          color="#d9534f"
-          hoverColor="#d43f3a"
-          text=interface
-          key=interface
-          isSelected=false
-        />
+        <PanelItem color="#d9534f" text=interface key=interface />
     )
     interfaces;
 

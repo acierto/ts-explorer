@@ -43,7 +43,6 @@ let make ::properties ::selectedPropertyName=? ::onPropertyClick _children => {
                     <PanelItem
                       color="#449d44"
                       hoverColor="#398439"
-                      isSelected=false
                       key=propertyName
                       text=propertyName
                     />

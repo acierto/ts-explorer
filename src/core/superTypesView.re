@@ -17,13 +17,7 @@ let getInterfaceItems superTypes =>
   Array.map
     (
       fun superType =>
-        <PanelItem
-          color="#5bc0de"
-          hoverColor="#46b8da"
-          text=superType
-          key=superType
-          isSelected=false
-        />
+        <PanelItem color="#5bc0de" text=superType key=superType />
     )
     superTypes;
 
