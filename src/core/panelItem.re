@@ -2,11 +2,16 @@ open Glamor;
 
 let component = ReasonReact.statelessComponent "PanelItem";
 
-let getItemCls ::_color ::_hoverColor=? ::isSelected () =>
+let getItemCls
+    ::_color
+    _hoverColor::(hoverColorOption: option string)
+    ::isSelected
+    () =>
   css @@
   CssUtils.mixStyles
     [
-      border "solid 1px #337ab7",
+      border "solid 1px",
+      borderColor _color,
       color _color,
       fontWeight "bold",
       fontSize "12px",
@@ -19,21 +24,20 @@ let getItemCls ::_color ::_hoverColor=? ::isSelected () =>
       whiteSpace "nowrap"
     ]
     (
-      switch _hoverColor {
-      | Some hc =>
+      switch hoverColorOption {
+      | Some hoverColor =>
         if isSelected {
-          [
-            backgroundColor _color,
-            borderColor _color,
-            color "#fff",
-            cursor "pointer"
-          ]
+          [backgroundColor _color, color "#fff", cursor "pointer"]
         } else {
           [
             backgroundColor "#fff",
-            borderColor _color,
             Selector
-              ":hover" [backgroundColor hc, borderColor hc, color "#fff"]
+              ":hover"
+              [
+                backgroundColor hoverColor,
+                borderColor hoverColor,
+                color "#fff"
+              ]
           ]
         }
       | None => []
