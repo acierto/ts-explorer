@@ -10,19 +10,6 @@ let upperPanelCls =
     CssMixins.flexRowMixin
     [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
-let lowerPanelCls =
-  css @@
-  CssUtils.mixStyles
-    CssMixins.flexMixin
-    [
-      margin "15px",
-      maxHeight "100%",
-      minHeight "0",
-      overflow "auto",
-      padding "0 15px",
-      width "auto"
-    ];
-
 let quickOverviewCls =
   css @@
   CssUtils.mixStyles
@@ -59,23 +46,7 @@ let make
           <InterfacesView interfaces />
           <SuperTypesView superTypes />
         </div>
-        <div className=lowerPanelCls>
-          (showRootInformation root)
-          <div>
-            <span> (ReasonReact.stringToElement "Description: ") </span>
-            <span> (ReasonReact.stringToElement description) </span>
-          </div>
-          <div>
-            <span> (ReasonReact.stringToElement "Icon: ") </span>
-            <span> (ReasonReact.stringToElement icon) </span>
-          </div>
-          <div>
-            <span> (ReasonReact.stringToElement "Virtual: ") </span>
-            <span>
-              (ReasonReact.stringToElement @@ string_of_bool virtualType)
-            </span>
-          </div>
-        </div>
+        <TypeDetails description icon root virtualType />
       </div>
     }
 };
