@@ -1,6 +1,6 @@
 open Glamor;
 
-let component = ReasonReact.statelessComponent "TypeDetails";
+let component = ReasonReact.statelessComponent "TableComponent";
 
 let tableCls =
   css [
@@ -46,48 +46,35 @@ let valueCellCls =
       width "auto"
     ];
 
-let titleCls = css [fontSize "20px", padding "15px", textAlign "center"];
-
-let typeDetailsCls =
-  css [
-    border "solid 1px #337ab7",
-    borderRadius "36px",
-    fontSize "12px",
-    height "50%",
-    margin "15px",
-    maxHeight "50%",
-    padding "0 15px",
-    width "auto"
-  ];
-
 let scrollableAreaCls =
   css @@
   CssUtils.mixStyles
     CssMixins.flexMixin
     [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
-let showRootInformation data =>
-  Js_undefined.testAny data ?
-    ReasonReact.nullElement :
-    <div className=rowCls>
-      <span className=keyCellCls> (ReasonReact.stringToElement "Root ") </span>
-      <span className=valueCellCls> (ReasonReact.stringToElement data) </span>
-    </div>;
-
-let make ::description ::icon ::root ::virtualType _children => {
+let make keyValueEntries::(entries: array (string, string)) _children => {
   ...component,
   render: fun _ =>
-    <div className=typeDetailsCls>
-      <div className=titleCls>
-        (ReasonReact.stringToElement "Additional type information")
+    <div className=scrollableAreaCls>
+      <div className=tableCls>
+        (
+          ReasonReact.arrayToElement @@
+          Array.map
+            (
+              fun (key, value) =>
+                Js_undefined.testAny value ?
+                  ReasonReact.nullElement :
+                  <div className=rowCls>
+                    <span className=keyCellCls>
+                      (ReasonReact.stringToElement key)
+                    </span>
+                    <span className=valueCellCls>
+                      (ReasonReact.stringToElement value)
+                    </span>
+                  </div>
+            )
+            entries
+        )
       </div>
-      <TableComponent
-        keyValueEntries=[|
-          ("Root", root),
-          ("Description", description),
-          ("Icon", icon),
-          ("Virtual", string_of_bool virtualType)
-        |]
-      />
     </div>
 };

@@ -36,7 +36,8 @@ let getItemCls
               [
                 backgroundColor hoverColor,
                 borderColor hoverColor,
-                color "#fff"
+                color "#fff",
+                cursor "pointer"
               ]
           ]
         }
