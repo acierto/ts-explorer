@@ -5,7 +5,7 @@ import plumber from 'gulp-plumber';
 import webpackConfig from './webpack.config';
 
 gulp.task('webpack', () => gulp
-    .src(['./lib/js/src/core/typeSystemRoot.js'])
+    .src(['./src/core/index.js', './lib/js/src/core/typeSystemRoot.js'])
     .pipe(plumber())
     .pipe(webpackStream(webpackConfig, webpack))
     .pipe(gulp.dest('bundledOutputs'))
