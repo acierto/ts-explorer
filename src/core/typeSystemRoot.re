@@ -19,7 +19,7 @@ let data =
     then_ (
       fun typeSystemData => {
         let data = parseJson typeSystemData;
-        ReactDOMRe.renderToElementWithId <TypeSystem data /> "index" |> resolve
+        ReactDOMRe.renderToElementWithId <TypeSystem data /> "ts-explorer" |> resolve
       }
     )
   );

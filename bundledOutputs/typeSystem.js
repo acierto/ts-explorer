@@ -83,7 +83,7 @@
 	          return prim.json();
 	        })).then((function (typeSystemData) {
 	        var data = Object.create(typeSystemData);
-	        return Promise.resolve(ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, TypeSystem.make(data, /* array */[])), "index"));
+	        return Promise.resolve(ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, TypeSystem.make(data, /* array */[])), "ts-explorer"));
 	      }));
 
 	exports.headers = headers;
