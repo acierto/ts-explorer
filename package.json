@@ -1,7 +1,7 @@
 {
   "name": "ts-explorer",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Type System explorer",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,10 @@
     "build": "webpack -w",
     "clean": "bsb -clean-world"
   },
-  "keywords": ["Type System", "Explorer", "XL Deploy"],
+  "keywords": [
+    "Type System",
+    "Explorer"
+  ],
   "author": "Bogdan Nechyporenko",
   "license": "ISC",
   "dependencies": {
@@ -23,6 +26,8 @@
   },
   "devDependencies": {
     "bs-platform": "^1.8.0",
+    "gulp": "3.9.1",
+    "gulp-release-it": "1.1.5",
     "webpack": "^1.14.0"
   }
 }
