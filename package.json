@@ -1,6 +1,5 @@
 {
   "name": "ts-explorer",
-  "private": true,
   "version": "0.0.2",
   "description": "Type System explorer",
   "main": "index.js",
