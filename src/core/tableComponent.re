@@ -3,13 +3,7 @@ open Glamor;
 let component = ReasonReact.statelessComponent "TableComponent";
 
 let tableCls =
-  css [
-    borderSpacing "0 5px",
-    display "table",
-    margin "0 auto",
-    marginTop "5px",
-    width "auto"
-  ];
+  css [borderSpacing "0 5px", display "table", margin "0 auto", width "100%"];
 
 let rowCls = css [display "table-row"];
 
@@ -64,7 +58,7 @@ let make keyValueEntries::(entries: array (string, string)) _children => {
               fun (key, value) =>
                 Js_undefined.testAny value ?
                   ReasonReact.nullElement :
-                  <div className=rowCls>
+                  <div className=rowCls key>
                     <span className=keyCellCls>
                       (ReasonReact.stringToElement key)
                     </span>
