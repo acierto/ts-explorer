@@ -2,7 +2,7 @@
   "name": "ts-explorer",
   "version": "0.0.2",
   "description": "Type System explorer",
-  "main": "index.js",
+  "main": "bundledOutputs/typeSystem.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "bsb -make-world -w",
