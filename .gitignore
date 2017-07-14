@@ -3,6 +3,5 @@
 /node_modules/
 /lib/*
 !/lib/js/*
-/bundledOutputs/
 npm-debug.log
 .DS_Store
