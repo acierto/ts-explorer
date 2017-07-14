@@ -51,9 +51,15 @@
 	var TypeSystem  = __webpack_require__(186);
 	var ReasonReact = __webpack_require__(221);
 
-	ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, TypeSystem.make(data, /* array */[])), "index");
+	var data = fetch("/deployit/metadata/type").then((function (prim) {
+	          return prim.json();
+	        })).then((function (typeSystemData) {
+	        var data = Object.create(typeSystemData);
+	        return Promise.resolve(ReactDOMRe.renderToElementWithId(ReasonReact.element(/* None */0, /* None */0, TypeSystem.make(data, /* array */[])), "index"));
+	      }));
 
-	/*  Not a pure module */
+	exports.data = data;
+	/* data Not a pure module */
 
 
 /***/ }),

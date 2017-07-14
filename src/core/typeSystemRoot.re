@@ -1,3 +1,15 @@
-external typeSystemData : array SharedTypes.typeItem = "data" [@@bs.val];
+open Bs_fetch;
 
-ReactDOMRe.renderToElementWithId <TypeSystem data=typeSystemData /> "index";
+external parseJson : Js_json.t => array SharedTypes.typeItem =
+  "Object.create" [@@bs.val];
+
+let data =
+  Js.Promise.(
+    fetch "/deployit/metadata/type" |> then_ Response.json |>
+    then_ (
+      fun typeSystemData => {
+        let data = parseJson typeSystemData;
+        ReactDOMRe.renderToElementWithId <TypeSystem data /> "index" |> resolve
+      }
+    )
+  );
