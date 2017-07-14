@@ -10,6 +10,14 @@ module.exports = {
     },
     module: {
         rules: [
+            {
+                exclude: /(node_modules)/,
+                loader: 'babel-loader',
+                options: {
+                    cacheDirectory: true
+                },
+                test: /\.js?$/
+            },
             {loader: 'html-loader', test: /\.html$/}, {
                 test: /\.css$/,
                 use: [
