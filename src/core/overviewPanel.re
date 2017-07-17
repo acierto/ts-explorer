@@ -16,23 +16,7 @@ let quickOverviewCls =
     CssMixins.flexMixin
     [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
-let showRootInformation data =>
-  Js_undefined.testAny data ?
-    ReasonReact.nullElement :
-    <div>
-      <span> (ReasonReact.stringToElement "Root: ") </span>
-      <span> (ReasonReact.stringToElement data) </span>
-    </div>;
-
-let make
-    ::description
-    ::icon
-    ::interfaces
-    ::superTypes
-    ::propertyDetails
-    ::root
-    ::virtualType
-    _children => {
+let make ::interfaces ::superTypes ::propertyDetails ::typeDetails _children => {
   ...component,
   render: fun _ =>
     switch propertyDetails {
@@ -43,10 +27,18 @@ let make
     | None =>
       <div className=quickOverviewCls>
         <div className=upperPanelCls>
-          <InterfacesView interfaces />
-          <SuperTypesView superTypes />
+          <ReadOnlyView
+            color="#d9534f"
+            itemValues=interfaces
+            title="Interfaces"
+          />
+          <ReadOnlyView
+            color="#5bc0de"
+            itemValues=superTypes
+            title="Super Types"
+          />
         </div>
-        <TypeDetails description icon root virtualType />
+        <TypeDetails typeDetails />
       </div>
     }
 };

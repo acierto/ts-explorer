@@ -66,28 +66,13 @@ let scrollableAreaCls =
     CssMixins.flexMixin
     [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
-let showRootInformation data =>
-  Js_undefined.testAny data ?
-    ReasonReact.nullElement :
-    <div className=rowCls>
-      <span className=keyCellCls> (ReasonReact.stringToElement "Root ") </span>
-      <span className=valueCellCls> (ReasonReact.stringToElement data) </span>
-    </div>;
-
-let make ::description ::icon ::root ::virtualType _children => {
+let make ::typeDetails _children => {
   ...component,
   render: fun _ =>
     <div className=typeDetailsCls>
       <div className=titleCls>
         (ReasonReact.stringToElement "Additional type information")
       </div>
-      <TableComponent
-        keyValueEntries=[|
-          ("Root", root),
-          ("Description", description),
-          ("Icon", icon),
-          ("Virtual", string_of_bool virtualType)
-        |]
-      />
+      <TableComponent keyValueEntries=typeDetails />
     </div>
 };

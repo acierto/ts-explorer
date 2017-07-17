@@ -1,0 +1,11 @@
+.idea/
+gulp/
+lib/
+node_modules/
+src/
+!bundledOutputs
+bsconfig.json
+gulpfile.babel.js
+index.html
+xld-types.js
+xlr-types.js

@@ -2,7 +2,8 @@ const path = require('path');
 
 module.exports = {
     entry: {
-        typeSystem: ['./src/core/index.js', './lib/js/src/core/typeSystemRoot.js']
+        typeSystem: ['./src/core/index.js', './lib/js/src/core/typeSystemRoot.js'],
+        testSystem: ['./src/core/index.js', './lib/js/src/core/testRoot.js']
     },
     output: {
         path: path.join(__dirname, "bundledOutputs"),

@@ -1,5 +1,7 @@
 open Glamor;
 
+external create_string : 'a => string = "String" [@@bs.new];
+
 let component = ReasonReact.statelessComponent "TableComponent";
 
 let tableCls =
@@ -63,7 +65,7 @@ let make keyValueEntries::(entries: array (string, string)) _children => {
                       (ReasonReact.stringToElement key)
                     </span>
                     <span className=valueCellCls>
-                      (ReasonReact.stringToElement value)
+                      (ReasonReact.stringToElement @@ create_string value)
                     </span>
                   </div>
             )

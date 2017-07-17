@@ -1,5 +1,8 @@
 open Glamor;
 
+external entries : Js.t {..} => array (string, string) =
+  "Object.entries" [@@bs.val];
+
 external jsonStringify : Js.t {..} => string = "JSON.stringify" [@@bs.val];
 
 let component = ReasonReact.statelessComponent "ViewPanel";
@@ -19,6 +22,20 @@ let sortProperties itemProperties => {
     compare (String.lowercase a##name) (String.lowercase b##name);
   Array.fast_sort compareByName itemProperties;
   itemProperties
+};
+
+let getTypeDetails typeDescriptor () => {
+  let isEqual key item => key === item;
+  let excludedItems = ["properties", "superTypes", "interfaces"];
+  let descriptorEtries = entries typeDescriptor;
+  Array.fold_left
+    (
+      fun acc (key, value) =>
+        List.exists (isEqual key) excludedItems ?
+          acc : Array.append [|(StringUtils.capitalize key, value)|] acc
+    )
+    [||]
+    descriptorEtries
 };
 
 let getPropertyDetails typeDescriptor propertyName () => {
@@ -49,15 +66,12 @@ let make ::typeDescriptor=? ::propertyName ::onPropertyClick _children => {
             selectedPropertyName=propertyName
           />
           <OverviewPanel
-            description=typeDescriptorValue##description
-            icon=typeDescriptorValue##icon
             interfaces=typeDescriptorValue##interfaces
             propertyDetails=(
               getPropertyDetails typeDescriptorValue propertyName ()
             )
             superTypes=typeDescriptorValue##superTypes
-            root=typeDescriptorValue##root
-            virtualType=typeDescriptorValue##_virtual
+            typeDetails=(getTypeDetails typeDescriptorValue ())
           />
         </div>
       </div>
