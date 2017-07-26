@@ -29,3 +29,9 @@ open up the nested html files in `src/*` (**no server needed!**).
 Then modify whichever file in `src` and refresh the page to see the changes.
 
 There are 2 pages to view: *xld-index.html* and *xlr-index.html*.
+
+### Demo
+
+[XLD Type System](https://acierto.github.io/ts-explorer/xld-index.html)
+
+[XLR Type System](https://acierto.github.io/ts-explorer/xlr-index.html)

@@ -5,5 +5,5 @@
 !/lib/js/*
 npm-debug.log
 .DS_Store
-bundledOutputs
+bundledOutputs/
 *.swp
