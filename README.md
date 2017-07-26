@@ -7,7 +7,7 @@ Here is a couple of examples for 2 products: XL Deploy and XL Release.
 
 #### Prerequisites
 
-#### To be able to compile it
+#### For a compilation
 * ocaml
 
 #### For a proper syntax highlight and code formatting.
