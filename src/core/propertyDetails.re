@@ -8,7 +8,7 @@ let component = ReasonReact.statelessComponent "PropertyDetails";
 let propertyDetailsCls =
   css @@
   CssUtils.mixStyles
-    SharedCss.flexContainerStyles [margin "0 auto", width "80%"];
+    SharedCss.flexContainerStyles [margin "0 auto", width "90%"];
 
 let make ::propertyDetails _children => {
   ...component,

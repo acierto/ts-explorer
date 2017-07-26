@@ -14777,7 +14777,7 @@ var component = ReasonReact.statelessComponent("TableComponent");
 var tableCls = Glamor.css( /* :: */[Glamor.borderSpacing("0 5px"),
 /* :: */[Glamor.display("table"),
 /* :: */[Glamor.margin("0 auto"),
-/* :: */[Glamor.width("100%"),
+/* :: */[Glamor.width("95%"),
 /* [] */0]]]]);
 
 var rowCls = Glamor.css( /* :: */[Glamor.display("table-row"),
@@ -19351,7 +19351,7 @@ var TableComponent = __webpack_require__(72);
 var component = ReasonReact.statelessComponent("PropertyDetails");
 
 var propertyDetailsCls = Glamor.css(CssUtils.mixStyles(SharedCss.flexContainerStyles, /* :: */[Glamor.margin("0 auto"),
-/* :: */[Glamor.width("80%"),
+/* :: */[Glamor.width("90%"),
 /* [] */0]]));
 
 function make(propertyDetails, _) {

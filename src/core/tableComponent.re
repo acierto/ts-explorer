@@ -4,8 +4,7 @@ external create_string : 'a => string = "String" [@@bs.new];
 
 let component = ReasonReact.statelessComponent "TableComponent";
 
-let tableCls =
-  css [borderSpacing "0 5px", display "table", margin "0 auto", width "100%"];
+let tableCls = css [borderSpacing "0 5px", display "table", margin "0 auto", width "95%"];
 
 let rowCls = css [display "table-row"];
 
@@ -45,8 +44,7 @@ let valueCellCls =
 let scrollableAreaCls =
   css @@
   CssUtils.mixStyles
-    CssMixins.flexMixin
-    [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
+    CssMixins.flexMixin [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
 let make keyValueEntries::(entries: array (string, string)) _children => {
   ...component,
@@ -61,9 +59,7 @@ let make keyValueEntries::(entries: array (string, string)) _children => {
                 Js_undefined.testAny value ?
                   ReasonReact.nullElement :
                   <div className=rowCls key>
-                    <span className=keyCellCls>
-                      (ReasonReact.stringToElement key)
-                    </span>
+                    <span className=keyCellCls> (ReasonReact.stringToElement key) </span>
                     <span className=valueCellCls>
                       (ReasonReact.stringToElement @@ create_string value)
                     </span>

@@ -18,7 +18,6 @@ let capitalize str => {
   let lowerCaseStr = String.lowercase str;
   let lengthOfStr = String.length str;
   let indexOfEndOfWord = String.sub str 1 (lengthOfStr - 1);
-  let capitalizedInitialLetter =
-    String.uppercase @@ String.make 1 lowerCaseStr.[0];
+  let capitalizedInitialLetter = String.uppercase @@ String.make 1 lowerCaseStr.[0];
   capitalizedInitialLetter ^ indexOfEndOfWord
 };
