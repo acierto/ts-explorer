@@ -10,7 +10,7 @@ Here is a couple of examples for 2 products: XL Deploy and XL Release.
 #### To be able to compile it
 * ocaml
 
-#### To be able to have a proper syntax highlight, and code formatting.
+#### For a proper syntax highlight and code formatting.
 * [ocamlmerlin](https://github.com/ocaml/merlin)
 * [reason tools](https://reasonml.github.io/guide/tools/#refmt)
 
