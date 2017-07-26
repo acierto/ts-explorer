@@ -5,6 +5,7 @@ node_modules/
 src/
 ghPages/
 !bundledOutputs
+bundledOutputs/testSystem.js
 bsconfig.json
 gulpfile.babel.js
 .babelrc
