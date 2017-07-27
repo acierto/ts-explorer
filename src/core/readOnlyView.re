@@ -7,8 +7,7 @@ let panelVeiwCls =
   CssUtils.mixStyles
     CssMixins.flexMixin
     [
-      height "200px",
-      maxHeight "200px",
+      maxHeight "100%",
       overflow "auto",
       width SharedCss.panelSize
     ];

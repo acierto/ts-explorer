@@ -19463,11 +19463,10 @@ var ReasonReact = __webpack_require__(12);
 
 var component = ReasonReact.statelessComponent("ReadOnlyView");
 
-var panelVeiwCls = Glamor.css(CssUtils.mixStyles(CssMixins.flexMixin, /* :: */[Glamor.height("200px"),
-/* :: */[Glamor.maxHeight("200px"),
+var panelVeiwCls = Glamor.css(CssUtils.mixStyles(CssMixins.flexMixin, /* :: */[Glamor.maxHeight("100%"),
 /* :: */[Glamor.overflow("auto"),
 /* :: */[Glamor.width(SharedCss.panelSize),
-/* [] */0]]]]));
+/* [] */0]]]));
 
 function getHtmlItems(color, values) {
   return $$Array.map(function (itemValue) {
