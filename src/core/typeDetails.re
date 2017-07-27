@@ -3,13 +3,7 @@ open Glamor;
 let component = ReasonReact.statelessComponent "TypeDetails";
 
 let tableCls =
-  css [
-    borderSpacing "0 5px",
-    display "table",
-    margin "0 auto",
-    marginTop "5px",
-    width "auto"
-  ];
+  css [borderSpacing "0 5px", display "table", margin "0 auto", marginTop "5px", width "auto"];
 
 let rowCls = css [display "table-row"];
 
@@ -63,16 +57,17 @@ let typeDetailsCls =
 let scrollableAreaCls =
   css @@
   CssUtils.mixStyles
-    CssMixins.flexMixin
-    [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
+    CssMixins.flexMixin [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
 let make ::typeDetails _children => {
   ...component,
   render: fun _ =>
     <div className=typeDetailsCls>
-      <div className=titleCls>
-        (ReasonReact.stringToElement "Additional type information")
-      </div>
-      <TableComponent keyValueEntries=typeDetails />
+      <div className=titleCls> (ReasonReact.stringToElement "Additional type information") </div>
+      <TableComponent
+        keyValueEntries=typeDetails
+        heightValue="calc(100% - 60px)"
+        maxValueCellWidth="500px"
+      />
     </div>
 };

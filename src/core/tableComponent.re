@@ -1,6 +1,10 @@
 open Glamor;
 
-external create_string : 'a => string = "String" [@@bs.new];
+external createString : 'a => string = "String" [@@bs.new];
+
+external jsonStringify : 'a => string = "JSON.stringify" [@@bs.val];
+
+external isArray : 'a => bool = "Array.isArray" [@@bs.val];
 
 let component = ReasonReact.statelessComponent "TableComponent";
 
@@ -28,8 +32,7 @@ let keyCellCls =
       verticalAlign "middle"
     ];
 
-let valueCellCls =
-  css @@
+let valueCellStyles =
   CssUtils.mixStyles
     cellStyle
     [
@@ -41,15 +44,25 @@ let valueCellCls =
       width "auto"
     ];
 
-let scrollableAreaCls =
-  css @@
+let printValue value =>
+  if (isArray value) {
+    createString @@ jsonStringify value
+  } else {
+    createString value
+  };
+
+let scrollableAreaStyles =
   CssUtils.mixStyles
     CssMixins.flexMixin [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
-let make keyValueEntries::(entries: array (string, string)) _children => {
+let make
+    keyValueEntries::(entries: array (string, string))
+    ::heightValue="100%"
+    ::maxValueCellWidth="none"
+    _children => {
   ...component,
   render: fun _ =>
-    <div className=scrollableAreaCls>
+    <div className=(css @@ CssUtils.mixStyles scrollableAreaStyles [height heightValue])>
       <div className=tableCls>
         (
           ReasonReact.arrayToElement @@
@@ -60,8 +73,11 @@ let make keyValueEntries::(entries: array (string, string)) _children => {
                   ReasonReact.nullElement :
                   <div className=rowCls key>
                     <span className=keyCellCls> (ReasonReact.stringToElement key) </span>
-                    <span className=valueCellCls>
-                      (ReasonReact.stringToElement @@ create_string value)
+                    <span
+                      className=(
+                        css @@ CssUtils.mixStyles valueCellStyles [maxWidth maxValueCellWidth]
+                      )>
+                      (ReasonReact.stringToElement @@ printValue value)
                     </span>
                   </div>
             )

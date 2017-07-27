@@ -10,6 +10,9 @@ let upperPanelCls =
     CssMixins.flexRowMixin [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
 
 let quickOverviewCls =
+  css @@ CssUtils.mixStyles CssMixins.flexMixin [maxHeight "100%", minHeight "0", width "auto"];
+
+let propertiesOverviewCls =
   css @@
   CssUtils.mixStyles
     CssMixins.flexMixin [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
@@ -19,7 +22,7 @@ let make ::interfaces ::superTypes ::propertyDetails ::typeDetails _children => 
   render: fun _ =>
     switch propertyDetails {
     | Some propertyDetails =>
-      <div className=quickOverviewCls> <PropertyDetails propertyDetails /> </div>
+      <div className=propertiesOverviewCls> <PropertyDetails propertyDetails /> </div>
     | None =>
       <div className=quickOverviewCls>
         <div className=upperPanelCls>
