@@ -14804,25 +14804,36 @@ var keyCellCls = Glamor.css(CssUtils.mixStyles(cellStyle, /* :: */[Glamor.backgr
 /* :: */[Glamor.verticalAlign("middle"),
 /* [] */0]]]]]]]]]));
 
-var valueCellCls = Glamor.css(CssUtils.mixStyles(cellStyle, /* :: */[Glamor.border(borderCellStyle),
+var valueCellStyles = CssUtils.mixStyles(cellStyle, /* :: */[Glamor.border(borderCellStyle),
 /* :: */[Glamor.borderRadius("0 30px 30px 0"),
 /* :: */[Glamor.borderLeft("none"),
 /* :: */[Glamor.fontWeight("bold"),
 /* :: */[Glamor.wordBreak("break-word"),
 /* :: */[Glamor.width("auto"),
-/* [] */0]]]]]]));
+/* [] */0]]]]]]);
 
-var scrollableAreaCls = Glamor.css(CssUtils.mixStyles(CssMixins.flexMixin, /* :: */[Glamor.maxHeight("100%"),
+function printValue(value) {
+  if (Array.isArray(value)) {
+    return new String(JSON.stringify(value));
+  } else {
+    return new String(value);
+  }
+}
+
+var scrollableAreaStyles = CssUtils.mixStyles(CssMixins.flexMixin, /* :: */[Glamor.maxHeight("100%"),
 /* :: */[Glamor.minHeight("0"),
 /* :: */[Glamor.overflow("auto"),
 /* :: */[Glamor.width("auto"),
-/* [] */0]]]]));
+/* [] */0]]]]);
 
-function make(entries, _) {
+function make(entries, $staropt$star, $staropt$star$1, _) {
+  var heightValue = $staropt$star ? $staropt$star[0] : "100%";
+  var maxValueCellWidth = $staropt$star$1 ? $staropt$star$1[0] : "none";
   var newrecord = component.slice();
   newrecord[/* render */9] = function () {
     return React.createElement("div", {
-      className: scrollableAreaCls
+      className: Glamor.css(CssUtils.mixStyles(scrollableAreaStyles, /* :: */[Glamor.height(heightValue),
+      /* [] */0]))
     }, React.createElement("div", {
       className: tableCls
     }, $$Array.map(function (param) {
@@ -14838,8 +14849,9 @@ function make(entries, _) {
         }, React.createElement("span", {
           className: keyCellCls
         }, key), React.createElement("span", {
-          className: valueCellCls
-        }, new String(value)));
+          className: Glamor.css(CssUtils.mixStyles(valueCellStyles, /* :: */[Glamor.maxWidth(maxValueCellWidth),
+          /* [] */0]))
+        }, printValue(value)));
       }
     }, entries)));
   };
@@ -14852,8 +14864,9 @@ exports.rowCls = rowCls;
 exports.cellStyle = cellStyle;
 exports.borderCellStyle = borderCellStyle;
 exports.keyCellCls = keyCellCls;
-exports.valueCellCls = valueCellCls;
-exports.scrollableAreaCls = scrollableAreaCls;
+exports.valueCellStyles = valueCellStyles;
+exports.printValue = printValue;
+exports.scrollableAreaStyles = scrollableAreaStyles;
 exports.make = make;
 /* component Not a pure module */
 
@@ -19304,6 +19317,11 @@ var upperPanelCls = Glamor.css(CssUtils.mixStyles(CssMixins.flexRowMixin, /* :: 
 
 var quickOverviewCls = Glamor.css(CssUtils.mixStyles(CssMixins.flexMixin, /* :: */[Glamor.maxHeight("100%"),
 /* :: */[Glamor.minHeight("0"),
+/* :: */[Glamor.width("auto"),
+/* [] */0]]]));
+
+var propertiesOverviewCls = Glamor.css(CssUtils.mixStyles(CssMixins.flexMixin, /* :: */[Glamor.maxHeight("100%"),
+/* :: */[Glamor.minHeight("0"),
 /* :: */[Glamor.overflow("auto"),
 /* :: */[Glamor.width("auto"),
 /* [] */0]]]]));
@@ -19313,7 +19331,7 @@ function make(interfaces, superTypes, propertyDetails, typeDetails, _) {
   newrecord[/* render */9] = function () {
     if (propertyDetails) {
       return React.createElement("div", {
-        className: quickOverviewCls
+        className: propertiesOverviewCls
       }, ReasonReact.element( /* None */0, /* None */0, PropertyDetails.make(propertyDetails[0], /* array */[])));
     } else {
       return React.createElement("div", {
@@ -19329,6 +19347,7 @@ function make(interfaces, superTypes, propertyDetails, typeDetails, _) {
 exports.component = component;
 exports.upperPanelCls = upperPanelCls;
 exports.quickOverviewCls = quickOverviewCls;
+exports.propertiesOverviewCls = propertiesOverviewCls;
 exports.make = make;
 /* component Not a pure module */
 
@@ -19359,7 +19378,7 @@ function make(propertyDetails, _) {
   newrecord[/* render */9] = function () {
     return React.createElement("div", {
       className: propertyDetailsCls
-    }, ReasonReact.element( /* None */0, /* None */0, PanelTitle.make("Property Details", /* array */[])), ReasonReact.element( /* None */0, /* None */0, TableComponent.make(Object.entries(propertyDetails), /* array */[])));
+    }, ReasonReact.element( /* None */0, /* None */0, PanelTitle.make("Property Details", /* array */[])), ReasonReact.element( /* None */0, /* None */0, TableComponent.make(Object.entries(propertyDetails), /* None */0, /* None */0, /* array */[])));
   };
   return newrecord;
 }
@@ -19563,7 +19582,7 @@ function make(typeDetails, _) {
       className: typeDetailsCls
     }, React.createElement("div", {
       className: titleCls
-    }, "Additional type information"), ReasonReact.element( /* None */0, /* None */0, TableComponent.make(typeDetails, /* array */[])));
+    }, "Additional type information"), ReasonReact.element( /* None */0, /* None */0, TableComponent.make(typeDetails, /* Some */["calc(100% - 60px)"], /* Some */["500px"], /* array */[])));
   };
   return newrecord;
 }
