@@ -9,7 +9,7 @@
   "sources": [
     {
       "dir": "src",
-      "subdirs": ["core/components", "core", "core/css"]
+      "subdirs": ["core/components", "core", "core/css", "core/advancedFilter"]
     }
   ]
 }

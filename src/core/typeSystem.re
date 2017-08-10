@@ -58,11 +58,10 @@ let make ::data _children => {
   render: fun {state, update} => {
     let selectedType = findTypeByKey data key::state.selectedKey ();
     <div className=typeSystemPanelCls>
-      <ReactModal contentLabel="Filter" isOpen=state.isOpenedFilter>
-        <button onClick=(update handleCloseFilter) _type="button">
-          (ReasonReact.stringToElement "Close")
-        </button>
-      </ReactModal>
+      <AdvancedFilterModalComponent
+        isOpenedFilter=state.isOpenedFilter
+        onCloseFilter=(update handleCloseFilter)
+      />
       <TypeListPanel
         selectedKey=state.selectedKey
         searchCriteria=state.searchTypeTerm
