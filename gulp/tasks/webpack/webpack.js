@@ -6,7 +6,7 @@ import webpackConfig from './webpack.config';
 
 gulp.task('webpack', () => {
         gulp
-            .src(['./src/core/index.js', './lib/js/src/core/typeSystemRoot.js', './lib/js/src/core/testRoot.js'])
+            .src(['./lib/js/src/core/typeSystemRoot.js', './lib/js/src/core/testRoot.js'])
             .pipe(plumber())
             .pipe(webpackStream(webpackConfig, webpack))
             .pipe(gulp.dest('bundledOutputs'));
