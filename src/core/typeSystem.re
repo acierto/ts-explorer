@@ -5,7 +5,6 @@ let typeSystemPanelCls = css [display "flex", height "inherit", flexFlow "row"];
 external eventToFilters : 'a => SharedTypes.filtersType = "Object.assign" [@@bs.val];
 
 type state = {
-  keys: array string,
   isOpenedFilter: bool,
   advancedFilters: SharedTypes.filtersType,
   searchTypeTerm: string,
@@ -56,22 +55,24 @@ let handleApplyFilter _event {ReasonReact.state: state} => {
   ReasonReact.Update {...state, isOpenedFilter: false, advancedFilters}
 };
 
+let getSortedKeys data => {
+  let keys = Array.map (fun typeItem => typeItem##_type) data;
+  Array.fast_sort compare keys;
+  keys
+};
+
 let make ::data _children => {
   ...component,
   initialState: fun () => {
-    let keys = Array.map (fun typeItem => typeItem##_type) data;
-    Array.fast_sort compare keys;
-    {
-      isOpenedFilter: false,
-      advancedFilters: Js.Obj.empty (),
-      keys,
-      searchTypeTerm: "",
-      selectedKey: "",
-      selectedProperty: ""
-    }
+    isOpenedFilter: false,
+    advancedFilters: Js.Obj.empty (),
+    searchTypeTerm: "",
+    selectedKey: "",
+    selectedProperty: ""
   },
   render: fun {state, update} => {
-    let selectedType = findTypeByKey data key::state.selectedKey ();
+    let filteredData = DataUtils.getFilteredData data state.advancedFilters;
+    let selectedType = findTypeByKey filteredData key::state.selectedKey ();
     <div className=typeSystemPanelCls>
       <AdvancedFilter
         interfaces=(DataUtils.getAllInterfaces data)
@@ -82,7 +83,7 @@ let make ::data _children => {
       <TypeListPanel
         selectedKey=state.selectedKey
         searchCriteria=state.searchTypeTerm
-        typeList=state.keys
+        typeList=(getSortedKeys filteredData)
         onOpenFilter=(update handleOpenFilter)
         onSearchChange=(update handleSearchChange)
         onItemClick=(update handleTypeClick)

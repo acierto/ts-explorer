@@ -2,7 +2,11 @@ open Glamor;
 
 type filterState = {hasInterfaceTerm: string};
 
-external eventToObjectType : 'a => SharedTypes.optionType = "Object.assign" [@@bs.val];
+let eventToObjectType: 'a => SharedTypes.optionType = [%bs.raw
+  {|function(val){
+    return val && (val !== null) ? Object.assign(val): {};
+}|}
+];
 
 let component = ReasonReact.statefulComponent "AdvancedFilter";
 

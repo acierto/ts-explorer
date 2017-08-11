@@ -1,5 +1,3 @@
-module SS = Set.Make String;
-
 let getAllInterfaces data => {
   let allInterfaces =
     Array.of_list @@
@@ -28,3 +26,20 @@ let getAllInterfaces data => {
   Array.fast_sort compare allInterfaces;
   allInterfaces
 };
+
+let getFilteredData data filters =>
+  if (not (Js_undefined.testAny filters##hasInterface)) {
+    Array.fold_left
+      (
+        fun acc item =>
+          if (List.exists (fun el => el == filters##hasInterface) (Array.to_list item##interfaces)) {
+            Array.append acc [|item|]
+          } else {
+            acc
+          }
+      )
+      [||]
+      data
+  } else {
+    data
+  };
