@@ -2,9 +2,12 @@ open Glamor;
 
 let typeSystemPanelCls = css [display "flex", height "inherit", flexFlow "row"];
 
+external eventToFilters : 'a => SharedTypes.filtersType = "Object.assign" [@@bs.val];
+
 type state = {
   keys: array string,
   isOpenedFilter: bool,
+  advancedFilters: SharedTypes.filtersType,
   searchTypeTerm: string,
   selectedKey: string,
   selectedProperty: string
@@ -48,15 +51,24 @@ let handleOpenFilter _event {ReasonReact.state: state} =>
 let handleCloseFilter _event {ReasonReact.state: state} =>
   ReasonReact.Update {...state, isOpenedFilter: false};
 
-let handleApplyFilter _event {ReasonReact.state: state} =>
-  ReasonReact.Update {...state, isOpenedFilter: false};
+let handleApplyFilter _event {ReasonReact.state: state} => {
+  let advancedFilters = eventToFilters _event;
+  ReasonReact.Update {...state, isOpenedFilter: false, advancedFilters}
+};
 
 let make ::data _children => {
   ...component,
   initialState: fun () => {
     let keys = Array.map (fun typeItem => typeItem##_type) data;
     Array.fast_sort compare keys;
-    {isOpenedFilter: false, keys, searchTypeTerm: "", selectedKey: "", selectedProperty: ""}
+    {
+      isOpenedFilter: false,
+      advancedFilters: Js.Obj.empty (),
+      keys,
+      searchTypeTerm: "",
+      selectedKey: "",
+      selectedProperty: ""
+    }
   },
   render: fun {state, update} => {
     let selectedType = findTypeByKey data key::state.selectedKey ();

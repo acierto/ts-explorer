@@ -21568,7 +21568,7 @@ var headerCls = Glamor.css( /* :: */[Glamor.textAlign("center"),
 /* [] */0]);
 
 function handleHasInterfaceTermChange($$event, _) {
-  return (/* Update */Block.__(0, [/* record */[/* hasInterfaceTerm */Object.create($$event).value]])
+  return (/* Update */Block.__(0, [/* record */[/* hasInterfaceTerm */Object.assign($$event).value]])
   );
 }
 
@@ -21602,16 +21602,23 @@ function createOptions(values) {
   }, values);
 }
 
+function handleApply(fn, st, _) {
+  return Curry._1(fn, {
+    hasInterface: st[/* hasInterfaceTerm */0]
+  });
+}
+
 function make(interfaces, isOpenedFilter, onCloseFilter, onApplyFilter, _) {
   var newrecord = component.slice();
   newrecord[/* render */9] = function (param) {
+    var state = param[/* state */3];
     return ReasonReact.element( /* None */0, /* None */0, ReactModal.make("Filter", isOpenedFilter, /* array */[React.createElement("h3", {
       className: headerCls
     }, "Advanced Filter"), React.createElement("div", {
       className: hasInterfaceFilterCls
     }, React.createElement("span", {
       className: "filter-label"
-    }, React.createElement("span", undefined, "Has interface")), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-interface", param[/* state */3][/* hasInterfaceTerm */0], createOptions(interfaces), Curry._1(param[/* update */2], handleHasInterfaceTermChange), /* array */[]))), React.createElement("div", {
+    }, React.createElement("span", undefined, "Has interface")), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-interface", state[/* hasInterfaceTerm */0], createOptions(interfaces), Curry._1(param[/* update */2], handleHasInterfaceTermChange), /* array */[]))), React.createElement("div", {
       className: buttonsPanelCls
     }, React.createElement("button", {
       className: btnCls + " btn btn-link",
@@ -21620,7 +21627,9 @@ function make(interfaces, isOpenedFilter, onCloseFilter, onApplyFilter, _) {
     }, "Close"), React.createElement("button", {
       className: btnCls + " btn btn-primary",
       type: "button",
-      onClick: onApplyFilter
+      onClick: function onClick(param) {
+        return handleApply(onApplyFilter, state, param);
+      }
     }, "Apply"))]));
   };
   newrecord[/* initialState */10] = function () {
@@ -21638,6 +21647,7 @@ exports.headerCls = headerCls;
 exports.handleHasInterfaceTermChange = handleHasInterfaceTermChange;
 exports.hasInterfaceFilterCls = hasInterfaceFilterCls;
 exports.createOptions = createOptions;
+exports.handleApply = handleApply;
 exports.make = make;
 /* component Not a pure module */
 
@@ -22207,14 +22217,9 @@ var typeSystemPanelCls = Glamor.css( /* :: */[Glamor.display("flex"),
 var component = ReasonReact.statefulComponent("TypeSystem");
 
 function handleSearchChange($$event, param) {
-  var state = param[/* state */3];
   var searchTypeTerm = $$event.target.value;
-  return (/* Update */Block.__(0, [/* record */[
-    /* keys */state[/* keys */0],
-    /* isOpenedFilter */state[/* isOpenedFilter */1],
-    /* searchTypeTerm */searchTypeTerm,
-    /* selectedKey */state[/* selectedKey */3],
-    /* selectedProperty */state[/* selectedProperty */4]]])
+  var newrecord = param[/* state */3].slice();
+  return (/* Update */Block.__(0, [(newrecord[/* searchTypeTerm */3] = searchTypeTerm, newrecord)])
   );
 }
 
@@ -22224,21 +22229,17 @@ function handleTypeClick($$event, param) {
   return (/* Update */Block.__(0, [/* record */[
     /* keys */state[/* keys */0],
     /* isOpenedFilter */state[/* isOpenedFilter */1],
-    /* searchTypeTerm */state[/* searchTypeTerm */2],
+    /* advancedFilters */state[/* advancedFilters */2],
+    /* searchTypeTerm */state[/* searchTypeTerm */3],
     /* selectedKey */selectedKey,
     /* selectedProperty */""]])
   );
 }
 
 function handlePropertyClick($$event, param) {
-  var state = param[/* state */3];
   var selectedProperty = $$event.target.innerText;
-  return (/* Update */Block.__(0, [/* record */[
-    /* keys */state[/* keys */0],
-    /* isOpenedFilter */state[/* isOpenedFilter */1],
-    /* searchTypeTerm */state[/* searchTypeTerm */2],
-    /* selectedKey */state[/* selectedKey */3],
-    /* selectedProperty */selectedProperty]])
+  var newrecord = param[/* state */3].slice();
+  return (/* Update */Block.__(0, [(newrecord[/* selectedProperty */5] = selectedProperty, newrecord)])
   );
 }
 
@@ -22254,35 +22255,28 @@ function findTypeByKey(typeItems, key, _) {
 }
 
 function handleOpenFilter(_, param) {
-  var state = param[/* state */3];
-  return (/* Update */Block.__(0, [/* record */[
-    /* keys */state[/* keys */0],
-    /* isOpenedFilter : true */1,
-    /* searchTypeTerm */state[/* searchTypeTerm */2],
-    /* selectedKey */state[/* selectedKey */3],
-    /* selectedProperty */state[/* selectedProperty */4]]])
+  var newrecord = param[/* state */3].slice();
+  return (/* Update */Block.__(0, [(newrecord[/* isOpenedFilter */1] = /* true */1, newrecord)])
   );
 }
 
 function handleCloseFilter(_, param) {
-  var state = param[/* state */3];
-  return (/* Update */Block.__(0, [/* record */[
-    /* keys */state[/* keys */0],
-    /* isOpenedFilter : false */0,
-    /* searchTypeTerm */state[/* searchTypeTerm */2],
-    /* selectedKey */state[/* selectedKey */3],
-    /* selectedProperty */state[/* selectedProperty */4]]])
+  var newrecord = param[/* state */3].slice();
+  return (/* Update */Block.__(0, [(newrecord[/* isOpenedFilter */1] = /* false */0, newrecord)])
   );
 }
 
-function handleApplyFilter(_, param) {
+function handleApplyFilter(_event, param) {
   var state = param[/* state */3];
+  var advancedFilters = Object.assign(_event);
+  console.log(advancedFilters);
   return (/* Update */Block.__(0, [/* record */[
     /* keys */state[/* keys */0],
     /* isOpenedFilter : false */0,
-    /* searchTypeTerm */state[/* searchTypeTerm */2],
-    /* selectedKey */state[/* selectedKey */3],
-    /* selectedProperty */state[/* selectedProperty */4]]])
+    /* advancedFilters */advancedFilters,
+    /* searchTypeTerm */state[/* searchTypeTerm */3],
+    /* selectedKey */state[/* selectedKey */4],
+    /* selectedProperty */state[/* selectedProperty */5]]])
   );
 }
 
@@ -22291,10 +22285,10 @@ function make(data, _) {
   newrecord[/* render */9] = function (param) {
     var state = param[/* state */3];
     var update = param[/* update */2];
-    var selectedType = findTypeByKey(data, state[/* selectedKey */3], /* () */0);
+    var selectedType = findTypeByKey(data, state[/* selectedKey */4], /* () */0);
     return React.createElement("div", {
       className: typeSystemPanelCls
-    }, ReasonReact.element( /* None */0, /* None */0, AdvancedFilter.make(DataUtils.getAllInterfaces(data), state[/* isOpenedFilter */1], Curry._1(update, handleCloseFilter), Curry._1(update, handleApplyFilter), /* array */[])), ReasonReact.element( /* None */0, /* None */0, TypeListPanel.make(state[/* keys */0], Curry._1(update, handleTypeClick), Curry._1(update, handleOpenFilter), Curry._1(update, handleSearchChange), state[/* selectedKey */3], state[/* searchTypeTerm */2], /* array */[])), ReasonReact.element( /* None */0, /* None */0, ViewPanel.make(selectedType, state[/* selectedProperty */4], Curry._1(update, handlePropertyClick), /* array */[])));
+    }, ReasonReact.element( /* None */0, /* None */0, AdvancedFilter.make(DataUtils.getAllInterfaces(data), state[/* isOpenedFilter */1], Curry._1(update, handleCloseFilter), Curry._1(update, handleApplyFilter), /* array */[])), ReasonReact.element( /* None */0, /* None */0, TypeListPanel.make(state[/* keys */0], Curry._1(update, handleTypeClick), Curry._1(update, handleOpenFilter), Curry._1(update, handleSearchChange), state[/* selectedKey */4], state[/* searchTypeTerm */3], /* array */[])), ReasonReact.element( /* None */0, /* None */0, ViewPanel.make(selectedType, state[/* selectedProperty */5], Curry._1(update, handlePropertyClick), /* array */[])));
   };
   newrecord[/* initialState */10] = function () {
     var keys = $$Array.map(function (typeItem) {
@@ -22304,6 +22298,7 @@ function make(data, _) {
     return (/* record */[
       /* keys */keys,
       /* isOpenedFilter : false */0,
+      /* advancedFilters */{},
       /* searchTypeTerm */"",
       /* selectedKey */"",
       /* selectedProperty */""]

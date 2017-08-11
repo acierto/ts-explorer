@@ -1,10 +1,8 @@
 open Glamor;
 
-type filterState = {
-    hasInterfaceTerm: string
-};
+type filterState = {hasInterfaceTerm: string};
 
-external eventToObjectType : 'a => SharedTypes.optionType = "Object.create" [@@bs.val];
+external eventToObjectType : 'a => SharedTypes.optionType = "Object.assign" [@@bs.val];
 
 let component = ReasonReact.statefulComponent "AdvancedFilter";
 
@@ -12,6 +10,8 @@ external jsonStringify : 'a => string = "JSON.stringify" [@@bs.val];
 
 external makeOption : label::string => value::string => unit => SharedTypes.optionType =
   "" [@@bs.obj];
+
+external makeFilters : hasInterface::string => unit => SharedTypes.filtersType = "" [@@bs.obj];
 
 let buttonsPanelCls = css [bottom "10px", position "absolute", right "10px"];
 
@@ -22,7 +22,7 @@ let btnCls = css [Selector ":focus, &:active:focus" noOutlineStyles];
 let headerCls = css [textAlign "center"];
 
 let handleHasInterfaceTermChange event {ReasonReact.state: state} =>
-    ReasonReact.Update {...state, hasInterfaceTerm: (eventToObjectType event)##value};
+  ReasonReact.Update {...state, hasInterfaceTerm: (eventToObjectType event)##value};
 
 let hasInterfaceFilterCls =
   css [
@@ -42,10 +42,12 @@ let hasInterfaceFilterCls =
 
 let createOptions values => Array.map (fun value => makeOption label::value ::value ()) values;
 
+let handleApply fn st _ => fn @@ makeFilters hasInterface::st.hasInterfaceTerm ();
+
 let make ::interfaces ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children => {
   ...component,
   initialState: fun () => {hasInterfaceTerm: ""},
-  render: fun {state, update} => {
+  render: fun {state, update} =>
     <ReactModal contentLabel="Filter" isOpen=isOpenedFilter>
       <h3 className=headerCls> (ReasonReact.stringToElement "Advanced Filter") </h3>
       <div className=hasInterfaceFilterCls>
@@ -63,10 +65,12 @@ let make ::interfaces ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children
         <button className=(btnCls ^ " btn btn-link") onClick=onCloseFilter _type="button">
           (ReasonReact.stringToElement "Close")
         </button>
-        <button className=(btnCls ^ " btn btn-primary") onClick=onApplyFilter _type="button">
+        <button
+          className=(btnCls ^ " btn btn-primary")
+          onClick=(handleApply onApplyFilter state)
+          _type="button">
           (ReasonReact.stringToElement "Apply")
         </button>
       </div>
     </ReactModal>
-    }
 };
