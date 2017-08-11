@@ -1,6 +1,12 @@
 open Glamor;
 
-let component = ReasonReact.statefulComponent "AdvancedFilterModalComponent";
+type filterState = {
+    hasInterfaceTerm: string
+};
+
+external eventToObjectType : 'a => SharedTypes.optionType = "Object.create" [@@bs.val];
+
+let component = ReasonReact.statefulComponent "AdvancedFilter";
 
 external jsonStringify : 'a => string = "JSON.stringify" [@@bs.val];
 
@@ -15,7 +21,8 @@ let btnCls = css [Selector ":focus, &:active:focus" noOutlineStyles];
 
 let headerCls = css [textAlign "center"];
 
-let changeFilterHasInterface _event {ReasonReact.state} => ReasonReact.Update (state + 1);
+let handleHasInterfaceTermChange event {ReasonReact.state: state} =>
+    ReasonReact.Update {...state, hasInterfaceTerm: (eventToObjectType event)##value};
 
 let hasInterfaceFilterCls =
   css [
@@ -30,15 +37,15 @@ let hasInterfaceFilterCls =
         top "15px",
         verticalAlign "middle"
       ],
-    Selector "> .Select" [display "inline-block", width "200px"]
+    Selector "> .Select" [display "inline-block", width "300px"]
   ];
 
 let createOptions values => Array.map (fun value => makeOption label::value ::value ()) values;
 
 let make ::interfaces ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children => {
   ...component,
-  initialState: fun () => 0,
-  render: fun {state, update} =>
+  initialState: fun () => {hasInterfaceTerm: ""},
+  render: fun {state, update} => {
     <ReactModal contentLabel="Filter" isOpen=isOpenedFilter>
       <h3 className=headerCls> (ReasonReact.stringToElement "Advanced Filter") </h3>
       <div className=hasInterfaceFilterCls>
@@ -47,9 +54,9 @@ let make ::interfaces ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children
         </span>
         <ReactSelect
           name="has-interface"
-          value=""
+          value=state.hasInterfaceTerm
           options=(createOptions interfaces)
-          onChange=(update changeFilterHasInterface)
+          onChange=(update handleHasInterfaceTermChange)
         />
       </div>
       <div className=buttonsPanelCls>
@@ -61,4 +68,5 @@ let make ::interfaces ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children
         </button>
       </div>
     </ReactModal>
+    }
 };

@@ -21548,7 +21548,7 @@ var ReactModal = __webpack_require__(128);
 var ReactSelect = __webpack_require__(129);
 var ReasonReact = __webpack_require__(9);
 
-var component = ReasonReact.statefulComponent("AdvancedFilterModalComponent");
+var component = ReasonReact.statefulComponent("AdvancedFilter");
 
 var buttonsPanelCls = Glamor.css( /* :: */[Glamor.bottom("10px"),
 /* :: */[Glamor.position("absolute"),
@@ -21567,8 +21567,8 @@ var btnCls = Glamor.css( /* :: */[
 var headerCls = Glamor.css( /* :: */[Glamor.textAlign("center"),
 /* [] */0]);
 
-function changeFilterHasInterface(_, param) {
-  return (/* Update */Block.__(0, [param[/* state */3] + 1 | 0])
+function handleHasInterfaceTermChange($$event, _) {
+  return (/* Update */Block.__(0, [/* record */[/* hasInterfaceTerm */Object.create($$event).value]])
   );
 }
 
@@ -21589,7 +21589,7 @@ var hasInterfaceFilterCls = Glamor.css( /* :: */[
 /* :: */[
 /* Selector */Block.__(1, ["> .Select",
 /* :: */[Glamor.display("inline-block"),
-/* :: */[Glamor.width("200px"),
+/* :: */[Glamor.width("300px"),
 /* [] */0]]]),
 /* [] */0]]]);
 
@@ -21611,7 +21611,7 @@ function make(interfaces, isOpenedFilter, onCloseFilter, onApplyFilter, _) {
       className: hasInterfaceFilterCls
     }, React.createElement("span", {
       className: "filter-label"
-    }, React.createElement("span", undefined, "Has interface")), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-interface", "", createOptions(interfaces), Curry._1(param[/* update */2], changeFilterHasInterface), /* array */[]))), React.createElement("div", {
+    }, React.createElement("span", undefined, "Has interface")), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-interface", param[/* state */3][/* hasInterfaceTerm */0], createOptions(interfaces), Curry._1(param[/* update */2], handleHasInterfaceTermChange), /* array */[]))), React.createElement("div", {
       className: buttonsPanelCls
     }, React.createElement("button", {
       className: btnCls + " btn btn-link",
@@ -21624,7 +21624,8 @@ function make(interfaces, isOpenedFilter, onCloseFilter, onApplyFilter, _) {
     }, "Apply"))]));
   };
   newrecord[/* initialState */10] = function () {
-    return 0;
+    return (/* record */[/* hasInterfaceTerm */""]
+    );
   };
   return newrecord;
 }
@@ -21634,7 +21635,7 @@ exports.buttonsPanelCls = buttonsPanelCls;
 exports.noOutlineStyles = noOutlineStyles;
 exports.btnCls = btnCls;
 exports.headerCls = headerCls;
-exports.changeFilterHasInterface = changeFilterHasInterface;
+exports.handleHasInterfaceTermChange = handleHasInterfaceTermChange;
 exports.hasInterfaceFilterCls = hasInterfaceFilterCls;
 exports.createOptions = createOptions;
 exports.make = make;
@@ -21702,7 +21703,7 @@ var Caml_obj = __webpack_require__(23);
 var SS = $$Set.Make([$$String.compare]);
 
 function getAllInterfaces(data) {
-  return $$Array.of_list($$Array.fold_left(function (acc, item) {
+  var allInterfaces = $$Array.of_list($$Array.fold_left(function (acc, item) {
     if (item.interfaces !== undefined) {
       return List.append(acc, $$Array.fold_left(function (_acc, _item) {
         if (List.exists(function (el) {
@@ -21718,6 +21719,8 @@ function getAllInterfaces(data) {
       return acc;
     }
   }, /* [] */0, data));
+  $$Array.fast_sort(Caml_obj.caml_compare, allInterfaces);
+  return allInterfaces;
 }
 
 exports.SS = SS;
@@ -22194,7 +22197,7 @@ var DataUtils = __webpack_require__(130);
 var ViewPanel = __webpack_require__(139);
 var ReasonReact = __webpack_require__(9);
 var TypeListPanel = __webpack_require__(137);
-var AdvancedFilterModalComponent = __webpack_require__(127);
+var AdvancedFilter = __webpack_require__(127);
 
 var typeSystemPanelCls = Glamor.css( /* :: */[Glamor.display("flex"),
 /* :: */[Glamor.height("inherit"),
@@ -22291,7 +22294,7 @@ function make(data, _) {
     var selectedType = findTypeByKey(data, state[/* selectedKey */3], /* () */0);
     return React.createElement("div", {
       className: typeSystemPanelCls
-    }, ReasonReact.element( /* None */0, /* None */0, AdvancedFilterModalComponent.make(DataUtils.getAllInterfaces(data), state[/* isOpenedFilter */1], Curry._1(update, handleCloseFilter), Curry._1(update, handleApplyFilter), /* array */[])), ReasonReact.element( /* None */0, /* None */0, TypeListPanel.make(state[/* keys */0], Curry._1(update, handleTypeClick), Curry._1(update, handleOpenFilter), Curry._1(update, handleSearchChange), state[/* selectedKey */3], state[/* searchTypeTerm */2], /* array */[])), ReasonReact.element( /* None */0, /* None */0, ViewPanel.make(selectedType, state[/* selectedProperty */4], Curry._1(update, handlePropertyClick), /* array */[])));
+    }, ReasonReact.element( /* None */0, /* None */0, AdvancedFilter.make(DataUtils.getAllInterfaces(data), state[/* isOpenedFilter */1], Curry._1(update, handleCloseFilter), Curry._1(update, handleApplyFilter), /* array */[])), ReasonReact.element( /* None */0, /* None */0, TypeListPanel.make(state[/* keys */0], Curry._1(update, handleTypeClick), Curry._1(update, handleOpenFilter), Curry._1(update, handleSearchChange), state[/* selectedKey */3], state[/* searchTypeTerm */2], /* array */[])), ReasonReact.element( /* None */0, /* None */0, ViewPanel.make(selectedType, state[/* selectedProperty */4], Curry._1(update, handlePropertyClick), /* array */[])));
   };
   newrecord[/* initialState */10] = function () {
     var keys = $$Array.map(function (typeItem) {

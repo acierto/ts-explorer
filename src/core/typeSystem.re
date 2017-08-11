@@ -61,7 +61,7 @@ let make ::data _children => {
   render: fun {state, update} => {
     let selectedType = findTypeByKey data key::state.selectedKey ();
     <div className=typeSystemPanelCls>
-      <AdvancedFilterModalComponent
+      <AdvancedFilter
         interfaces=(DataUtils.getAllInterfaces data)
         isOpenedFilter=state.isOpenedFilter
         onApplyFilter=(update handleApplyFilter)
