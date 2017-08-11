@@ -10,3 +10,7 @@ type typeItem =
     superTypes : array string,
     root : string
   };
+
+type optionType = Js.t {. value : string, label : string};
+
+type filtersType = Js.t {. hasInterface : string};

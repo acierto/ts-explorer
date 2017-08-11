@@ -5,6 +5,7 @@ import path from 'path';
 gulp.task('publish.copy.resources', () => {
     gulp.src('src/core/css/main.css').pipe(gulp.dest('ghPages'));
     gulp.src('node_modules/bootstrap/dist/css/bootstrap.min.css').pipe(gulp.dest('ghPages'));
+    gulp.src('node_modules/react-select/dist/react-select.min.css').pipe(gulp.dest('ghPages'));
     gulp.src('bundledOutputs/testSystem.js').pipe(gulp.dest('ghPages'));
     gulp.src('bundledOutputs/fonts/**').pipe(gulp.dest('ghPages/fonts'));
 });

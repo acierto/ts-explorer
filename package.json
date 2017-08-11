@@ -9,6 +9,10 @@
     "build": "gulp",
     "clean": "bsb -clean-world"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:acierto/ts-explorer.git"
+  },
   "keywords": [
     "Type System",
     "Explorer"
@@ -22,6 +26,8 @@
     "bs-fetch": "0.1.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
+    "react-modal": "2.2.2",
+    "react-select": "1.0.0-rc.5",
     "reason-react": ">=0.2.2"
   },
   "devDependencies": {

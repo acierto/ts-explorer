@@ -4,8 +4,7 @@ let component = ReasonReact.statelessComponent "TypeListPanel";
 
 let listOfItemsCls = css [display "flex", height "inherit", flexFlow "column"];
 
-let listOfItemsInnerCls =
-  css [flex "1 100%", overflow "auto", width SharedCss.panelSize];
+let listOfItemsInnerCls = css [flex "1 100%", overflow "auto", width SharedCss.panelSize];
 
 let searchTypeCls =
   css [
@@ -15,11 +14,15 @@ let searchTypeCls =
     marginTop "5px",
     position "relative",
     Selector
-      "& i"
+      "& .glyphicon-search"
+      [color "grey", fontSize "24px", left "10px", position "absolute", top "10px"],
+    Selector
+      "& .glyphicon-filter"
       [
-        color "grey",
+        color "#337ab7",
+        cursor "pointer",
         fontSize "24px",
-        left "10px",
+        left "185px",
         position "absolute",
         top "10px"
       ]
@@ -41,9 +44,7 @@ let filterKeys keys term =>
     Array.fold_left
       (
         fun acc key =>
-          if (
-            StringUtils.contains (String.lowercase key) (String.lowercase term)
-          ) {
+          if (StringUtils.contains (String.lowercase key) (String.lowercase term)) {
             Array.append acc [|key|]
           } else {
             acc
@@ -70,6 +71,7 @@ let getItems keys selectedKey searchCriteria =>
 let make
     ::typeList
     ::onItemClick
+    ::onOpenFilter
     ::onSearchChange
     ::selectedKey
     ::searchCriteria
@@ -86,12 +88,10 @@ let make
           placeholder="Search"
           onChange=onSearchChange
         />
+        <i className="glyphicon glyphicon-filter" onClick=onOpenFilter />
       </div>
       <div className=listOfItemsInnerCls onClick=onItemClick>
-        (
-          ReasonReact.arrayToElement @@
-          getItems typeList selectedKey searchCriteria
-        )
+        (ReasonReact.arrayToElement @@ getItems typeList selectedKey searchCriteria)
       </div>
     </div>
 };
