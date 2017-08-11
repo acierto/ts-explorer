@@ -1,4 +1,4 @@
-external modalClass : ReasonReact.reactClass = "default" [@@bs.module "react-select"];
+external modalClass : ReasonReact.reactClass = "react-select" [@@bs.module];
 
 let make ::name ::value ::options ::onChange children =>
   ReasonReact.wrapJsForReason
