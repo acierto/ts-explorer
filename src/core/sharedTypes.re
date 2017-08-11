@@ -10,3 +10,5 @@ type typeItem =
     superTypes : array string,
     root : string
   };
+
+type optionType = Js.t {. value : string, label : string};
