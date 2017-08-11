@@ -48,6 +48,9 @@ let handleOpenFilter _event {ReasonReact.state: state} =>
 let handleCloseFilter _event {ReasonReact.state: state} =>
   ReasonReact.Update {...state, isOpenedFilter: false};
 
+let handleApplyFilter _event {ReasonReact.state: state} =>
+  ReasonReact.Update {...state, isOpenedFilter: false};
+
 let make ::data _children => {
   ...component,
   initialState: fun () => {
@@ -59,7 +62,9 @@ let make ::data _children => {
     let selectedType = findTypeByKey data key::state.selectedKey ();
     <div className=typeSystemPanelCls>
       <AdvancedFilterModalComponent
+        interfaces=(DataUtils.getAllInterfaces data)
         isOpenedFilter=state.isOpenedFilter
+        onApplyFilter=(update handleApplyFilter)
         onCloseFilter=(update handleCloseFilter)
       />
       <TypeListPanel

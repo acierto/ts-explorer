@@ -1,11 +1,5 @@
 open Glamor;
 
-external createString : 'a => string = "String" [@@bs.new];
-
-external jsonStringify : 'a => string = "JSON.stringify" [@@bs.val];
-
-external isArray : 'a => bool = "Array.isArray" [@@bs.val];
-
 let component = ReasonReact.statelessComponent "TableComponent";
 
 let tableCls = css [borderSpacing "0 5px", display "table", margin "0 auto", width "95%"];
@@ -44,13 +38,6 @@ let valueCellStyles =
       width "auto"
     ];
 
-let printValue value =>
-  if (isArray value) {
-    createString @@ jsonStringify value
-  } else {
-    createString value
-  };
-
 let scrollableAreaStyles =
   CssUtils.mixStyles
     CssMixins.flexMixin [maxHeight "100%", minHeight "0", overflow "auto", width "auto"];
@@ -77,7 +64,7 @@ let make
                       className=(
                         css @@ CssUtils.mixStyles valueCellStyles [maxWidth maxValueCellWidth]
                       )>
-                      (ReasonReact.stringToElement @@ printValue value)
+                      (PrintUtils.valueToElement value)
                     </span>
                   </div>
             )
