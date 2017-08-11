@@ -5,8 +5,8 @@ type typeItem =
     _virtual : bool,
     description : string,
     icon : string,
-    interfaces : array string,
+    interfaces : list string,
     properties : array (Js.t {. name : string}),
-    superTypes : array string,
+    superTypes : list string,
     root : string
   };

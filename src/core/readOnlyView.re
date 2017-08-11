@@ -13,7 +13,7 @@ let panelVeiwCls =
     ];
 
 let getHtmlItems ::color ::values =>
-  Array.map
+  List.map
     (fun itemValue => <PanelItem color text=itemValue key=itemValue />) values;
 
 let make ::color ::itemValues ::title _children => {
@@ -25,7 +25,7 @@ let make ::color ::itemValues ::title _children => {
         <PanelTitle text=title />
         <div className=panelVeiwCls>
           (
-            ReasonReact.arrayToElement @@
+            TsReact.listToElement @@
             getHtmlItems values::itemValues ::color
           )
         </div>
