@@ -1,1 +1,0 @@
-let listToElement listOfValues => ReasonReact.arrayToElement @@ Array.of_list listOfValues
