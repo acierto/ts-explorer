@@ -1,6 +1,9 @@
 open Glamor;
 
-type filterState = {hasInterfaceTerm: string};
+type filterState = {
+  hasInterfaceTerm: string,
+  hasPropertyTerm: string
+};
 
 let eventToObjectType: 'a => SharedTypes.optionType = [%bs.raw
   {|function(val){
@@ -15,7 +18,9 @@ external jsonStringify : 'a => string = "JSON.stringify" [@@bs.val];
 external makeOption : label::string => value::string => unit => SharedTypes.optionType =
   "" [@@bs.obj];
 
-external makeFilters : hasInterface::string => unit => SharedTypes.filtersType = "" [@@bs.obj];
+external makeFilters :
+  hasInterface::string => hasProperty::string => unit => SharedTypes.filtersType =
+  "" [@@bs.obj];
 
 let buttonsPanelCls = css [bottom "10px", position "absolute", right "10px"];
 
@@ -28,7 +33,10 @@ let headerCls = css [textAlign "center"];
 let handleHasInterfaceTermChange event {ReasonReact.state: state} =>
   ReasonReact.Update {...state, hasInterfaceTerm: (eventToObjectType event)##value};
 
-let hasInterfaceFilterCls =
+let handleHasPropertyTermChange event {ReasonReact.state: state} =>
+  ReasonReact.Update {...state, hasPropertyTerm: (eventToObjectType event)##value};
+
+let filterElementCls =
   css [
     Selector
       "> .filter-label" [display "inline-block", lineHeight "35px", verticalAlign "text-bottom"],
@@ -46,23 +54,34 @@ let hasInterfaceFilterCls =
 
 let createOptions values => Array.map (fun value => makeOption label::value ::value ()) values;
 
-let handleApply fn st _ => fn @@ makeFilters hasInterface::st.hasInterfaceTerm ();
+let handleApply fn st _ =>
+  fn @@ makeFilters hasInterface::st.hasInterfaceTerm hasProperty::st.hasPropertyTerm ();
 
-let make ::interfaces ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children => {
+let filterLabelElement labelText =>
+  <span className="filter-label"> <span> (ReasonReact.stringToElement labelText) </span> </span>;
+
+let make ::interfaces ::propertyNames ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children => {
   ...component,
-  initialState: fun () => {hasInterfaceTerm: ""},
+  initialState: fun () => {hasInterfaceTerm: "", hasPropertyTerm: ""},
   render: fun {state, update} =>
     <ReactModal contentLabel="Filter" isOpen=isOpenedFilter>
       <h3 className=headerCls> (ReasonReact.stringToElement "Advanced Filter") </h3>
-      <div className=hasInterfaceFilterCls>
-        <span className="filter-label">
-          <span> (ReasonReact.stringToElement "Has interface") </span>
-        </span>
+      <div className=filterElementCls>
+        (filterLabelElement "Has interface")
         <ReactSelect
           name="has-interface"
           value=state.hasInterfaceTerm
           options=(createOptions interfaces)
           onChange=(update handleHasInterfaceTermChange)
+        />
+      </div>
+      <div className=filterElementCls>
+        (filterLabelElement "Has property")
+        <ReactSelect
+          name="has-property"
+          value=state.hasPropertyTerm
+          options=(createOptions propertyNames)
+          onChange=(update handleHasPropertyTermChange)
         />
       </div>
       <div className=buttonsPanelCls>
