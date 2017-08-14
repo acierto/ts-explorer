@@ -71,11 +71,12 @@ let make ::data _children => {
     selectedProperty: ""
   },
   render: fun {state, update} => {
-    let filteredData = DataUtils.getFilteredData data state.advancedFilters;
+    let filteredData = AdvancedFilterUtils.getFilteredData data state.advancedFilters;
     let selectedType = findTypeByKey filteredData key::state.selectedKey ();
     <div className=typeSystemPanelCls>
       <AdvancedFilter
         interfaces=(DataUtils.getAllInterfaces data)
+        propertyNames=(DataUtils.getAllPropertyNames data)
         isOpenedFilter=state.isOpenedFilter
         onApplyFilter=(update handleApplyFilter)
         onCloseFilter=(update handleCloseFilter)
