@@ -71,6 +71,7 @@ let createOptions values => Array.map (fun value => makeOption label::value ::va
 let handleApply fn st _ =>
   fn @@
   makeFilters
+    hasContainerType::st.hasContainerTypeTerm
     hasInterface::st.hasInterfaceTerm
     hasSupertype::st.hasSupertypeTerm
     hasProperty::st.hasPropertyTerm
