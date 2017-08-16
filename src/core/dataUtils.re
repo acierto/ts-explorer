@@ -49,6 +49,12 @@ let getAllPropertyNames data => {
   collectItems getListOfItemsFn getItemValueFn data
 };
 
+let getAllContainerTypes data => {
+  let getListOfItemsFn item => [|item##containerType|];
+  let getItemValueFn item => item;
+  collectItems getListOfItemsFn getItemValueFn data
+};
+
 let hasValue _value => not (Js_undefined.testAny _value) && _value != "";
 
 let getTypeProperties _type =>

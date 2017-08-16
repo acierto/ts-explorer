@@ -1,6 +1,7 @@
 open Glamor;
 
 type filterState = {
+  hasContainerTypeTerm: string,
   hasInterfaceTerm: string,
   hasSupertypeTerm: string,
   hasPropertyTerm: string
@@ -20,6 +21,7 @@ external makeOption : label::string => value::string => unit => SharedTypes.opti
   "" [@@bs.obj];
 
 external makeFilters :
+  hasContainerType::string =>
   hasInterface::string =>
   hasProperty::string =>
   hasSupertype::string =>
@@ -44,10 +46,14 @@ let handleHasSupertypeTermChange event {ReasonReact.state: state} =>
 let handleHasPropertyTermChange event {ReasonReact.state: state} =>
   ReasonReact.Update {...state, hasPropertyTerm: (eventToObjectType event)##value};
 
+let handleHasContainerTypeTermChange event {ReasonReact.state: state} =>
+  ReasonReact.Update {...state, hasContainerTypeTerm: (eventToObjectType event)##value};
+
 let filterElementCls =
   css [
     Selector
-      "> .filter-label" [display "inline-block", lineHeight "35px", verticalAlign "text-bottom", width "150px"],
+      "> .filter-label"
+      [display "inline-block", lineHeight "35px", verticalAlign "text-bottom", width "150px"],
     Selector
       "> .filter-label > span"
       [
@@ -74,6 +80,7 @@ let filterLabelElement labelText =>
   <span className="filter-label"> <span> (ReasonReact.stringToElement labelText) </span> </span>;
 
 let make
+    ::containerTypes
     ::interfaces
     ::propertyNames
     ::superTypes
@@ -82,7 +89,12 @@ let make
     ::onApplyFilter
     _children => {
   ...component,
-  initialState: fun () => {hasInterfaceTerm: "", hasPropertyTerm: "", hasSupertypeTerm: ""},
+  initialState: fun () => {
+    hasContainerTypeTerm: "",
+    hasInterfaceTerm: "",
+    hasPropertyTerm: "",
+    hasSupertypeTerm: ""
+  },
   render: fun {state, update} =>
     <ReactModal contentLabel="Filter" isOpen=isOpenedFilter>
       <h3 className=headerCls> (ReasonReact.stringToElement "Advanced Filter") </h3>
@@ -111,6 +123,15 @@ let make
           value=state.hasPropertyTerm
           options=(createOptions propertyNames)
           onChange=(update handleHasPropertyTermChange)
+        />
+      </div>
+      <div className=filterElementCls>
+        (filterLabelElement "Has container type")
+        <ReactSelect
+          name="has-container-type"
+          value=state.hasContainerTypeTerm
+          options=(createOptions containerTypes)
+          onChange=(update handleHasContainerTypeTermChange)
         />
       </div>
       <div className=buttonsPanelCls>

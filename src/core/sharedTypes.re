@@ -3,6 +3,7 @@ type typeItem =
     .
     _type : string,
     _virtual : bool,
+    containerType: string,
     description : string,
     icon : string,
     interfaces : array string,
@@ -13,4 +14,4 @@ type typeItem =
 
 type optionType = Js.t {. value : string, label : string};
 
-type filtersType = Js.t {. hasInterface : string, hasProperty: string, hasSupertype: string};
+type filtersType = Js.t {. hasContainerType: string, hasInterface : string, hasProperty: string, hasSupertype: string};

@@ -10101,6 +10101,17 @@ function getAllPropertyNames(data) {
   return collectItems(getListOfItemsFn, getItemValueFn, data);
 }
 
+function getAllContainerTypes(data) {
+  var getListOfItemsFn = function getListOfItemsFn(item) {
+    return (/* array */[item.containerType]
+    );
+  };
+  var getItemValueFn = function getItemValueFn(item) {
+    return item;
+  };
+  return collectItems(getListOfItemsFn, getItemValueFn, data);
+}
+
 function hasValue(_value) {
   if (_value !== undefined) {
     return +(_value !== "");
@@ -10120,6 +10131,7 @@ exports.collectItems = collectItems;
 exports.getAllInterfaces = getAllInterfaces;
 exports.getAllSuperTypes = getAllSuperTypes;
 exports.getAllPropertyNames = getAllPropertyNames;
+exports.getAllContainerTypes = getAllContainerTypes;
 exports.hasValue = hasValue;
 exports.getTypeProperties = getTypeProperties;
 /* No side effect */
@@ -21665,27 +21677,40 @@ var headerCls = Glamor.css( /* :: */[Glamor.textAlign("center"),
 function handleHasInterfaceTermChange($$event, param) {
   var state = param[/* state */3];
   return (/* Update */Block.__(0, [/* record */[
+    /* hasContainerTypeTerm */state[/* hasContainerTypeTerm */0],
     /* hasInterfaceTerm */Curry._1(eventToObjectType, $$event).value,
-    /* hasSupertypeTerm */state[/* hasSupertypeTerm */1],
-    /* hasPropertyTerm */state[/* hasPropertyTerm */2]]])
+    /* hasSupertypeTerm */state[/* hasSupertypeTerm */2],
+    /* hasPropertyTerm */state[/* hasPropertyTerm */3]]])
   );
 }
 
 function handleHasSupertypeTermChange($$event, param) {
   var state = param[/* state */3];
   return (/* Update */Block.__(0, [/* record */[
-    /* hasInterfaceTerm */state[/* hasInterfaceTerm */0],
+    /* hasContainerTypeTerm */state[/* hasContainerTypeTerm */0],
+    /* hasInterfaceTerm */state[/* hasInterfaceTerm */1],
     /* hasSupertypeTerm */Curry._1(eventToObjectType, $$event).value,
-    /* hasPropertyTerm */state[/* hasPropertyTerm */2]]])
+    /* hasPropertyTerm */state[/* hasPropertyTerm */3]]])
   );
 }
 
 function handleHasPropertyTermChange($$event, param) {
   var state = param[/* state */3];
   return (/* Update */Block.__(0, [/* record */[
-    /* hasInterfaceTerm */state[/* hasInterfaceTerm */0],
-    /* hasSupertypeTerm */state[/* hasSupertypeTerm */1],
+    /* hasContainerTypeTerm */state[/* hasContainerTypeTerm */0],
+    /* hasInterfaceTerm */state[/* hasInterfaceTerm */1],
+    /* hasSupertypeTerm */state[/* hasSupertypeTerm */2],
     /* hasPropertyTerm */Curry._1(eventToObjectType, $$event).value]])
+  );
+}
+
+function handleHasContainerTypeTermChange($$event, param) {
+  var state = param[/* state */3];
+  return (/* Update */Block.__(0, [/* record */[
+    /* hasContainerTypeTerm */Curry._1(eventToObjectType, $$event).value,
+    /* hasInterfaceTerm */state[/* hasInterfaceTerm */1],
+    /* hasSupertypeTerm */state[/* hasSupertypeTerm */2],
+    /* hasPropertyTerm */state[/* hasPropertyTerm */3]]])
   );
 }
 
@@ -21721,10 +21746,20 @@ function createOptions(values) {
 }
 
 function handleApply(fn, st, _) {
-  return Curry._1(fn, {
-    hasInterface: st[/* hasInterfaceTerm */0],
-    hasProperty: st[/* hasPropertyTerm */2],
-    hasSupertype: st[/* hasSupertypeTerm */1]
+  var arg = st[/* hasInterfaceTerm */1];
+  var arg$1 = st[/* hasPropertyTerm */3];
+  var arg$2 = st[/* hasSupertypeTerm */2];
+  return Curry._1(fn, function (param) {
+    var prim = param;
+    var prim$1 = arg;
+    var prim$2 = arg$1;
+    var prim$3 = arg$2;
+    return {
+      hasContainerType: prim,
+      hasInterface: prim$1,
+      hasProperty: prim$2,
+      hasSupertype: prim$3
+    };
   });
 }
 
@@ -21734,7 +21769,7 @@ function filterLabelElement(labelText) {
   }, React.createElement("span", undefined, labelText));
 }
 
-function make(interfaces, propertyNames, superTypes, isOpenedFilter, onCloseFilter, onApplyFilter, _) {
+function make(containerTypes, interfaces, propertyNames, superTypes, isOpenedFilter, onCloseFilter, onApplyFilter, _) {
   var newrecord = component.slice();
   newrecord[/* render */9] = function (param) {
     var state = param[/* state */3];
@@ -21743,11 +21778,13 @@ function make(interfaces, propertyNames, superTypes, isOpenedFilter, onCloseFilt
       className: headerCls
     }, "Advanced Filter"), React.createElement("div", {
       className: filterElementCls
-    }, filterLabelElement("Has interface"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-interface", state[/* hasInterfaceTerm */0], createOptions(interfaces), Curry._1(update, handleHasInterfaceTermChange), /* array */[]))), React.createElement("div", {
+    }, filterLabelElement("Has interface"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-interface", state[/* hasInterfaceTerm */1], createOptions(interfaces), Curry._1(update, handleHasInterfaceTermChange), /* array */[]))), React.createElement("div", {
       className: filterElementCls
-    }, filterLabelElement("Has supertype"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-supertype", state[/* hasSupertypeTerm */1], createOptions(superTypes), Curry._1(update, handleHasSupertypeTermChange), /* array */[]))), React.createElement("div", {
+    }, filterLabelElement("Has supertype"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-supertype", state[/* hasSupertypeTerm */2], createOptions(superTypes), Curry._1(update, handleHasSupertypeTermChange), /* array */[]))), React.createElement("div", {
       className: filterElementCls
-    }, filterLabelElement("Has property"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-property", state[/* hasPropertyTerm */2], createOptions(propertyNames), Curry._1(update, handleHasPropertyTermChange), /* array */[]))), React.createElement("div", {
+    }, filterLabelElement("Has property"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-property", state[/* hasPropertyTerm */3], createOptions(propertyNames), Curry._1(update, handleHasPropertyTermChange), /* array */[]))), React.createElement("div", {
+      className: filterElementCls
+    }, filterLabelElement("Has container type"), ReasonReact.element( /* None */0, /* None */0, ReactSelect.make("has-container-type", state[/* hasContainerTypeTerm */0], createOptions(containerTypes), Curry._1(update, handleHasContainerTypeTermChange), /* array */[]))), React.createElement("div", {
       className: buttonsPanelCls
     }, React.createElement("button", {
       className: btnCls + " btn btn-link",
@@ -21763,6 +21800,7 @@ function make(interfaces, propertyNames, superTypes, isOpenedFilter, onCloseFilt
   };
   newrecord[/* initialState */10] = function () {
     return (/* record */[
+      /* hasContainerTypeTerm */"",
       /* hasInterfaceTerm */"",
       /* hasSupertypeTerm */"",
       /* hasPropertyTerm */""]
@@ -21780,6 +21818,7 @@ exports.headerCls = headerCls;
 exports.handleHasInterfaceTermChange = handleHasInterfaceTermChange;
 exports.handleHasSupertypeTermChange = handleHasSupertypeTermChange;
 exports.handleHasPropertyTermChange = handleHasPropertyTermChange;
+exports.handleHasContainerTypeTermChange = handleHasContainerTypeTermChange;
 exports.filterElementCls = filterElementCls;
 exports.createOptions = createOptions;
 exports.handleApply = handleApply;
@@ -22522,7 +22561,7 @@ function make(data, _) {
     var selectedType = findTypeByKey(filteredData, state[/* selectedKey */3], /* () */0);
     return React.createElement("div", {
       className: typeSystemPanelCls
-    }, ReasonReact.element( /* None */0, /* None */0, AdvancedFilter.make(DataUtils.getAllInterfaces(data), DataUtils.getAllPropertyNames(data), DataUtils.getAllSuperTypes(data), state[/* isOpenedFilter */0], Curry._1(update, handleCloseFilter), Curry._1(update, handleApplyFilter), /* array */[])), ReasonReact.element( /* None */0, /* None */0, TypeListPanel.make(getSortedKeys(filteredData), Curry._1(update, handleTypeClick), Curry._1(update, handleOpenFilter), Curry._1(update, handleSearchChange), state[/* selectedKey */3], state[/* searchTypeTerm */2], /* array */[])), ReasonReact.element( /* None */0, /* None */0, ViewPanel.make(selectedType, state[/* selectedProperty */4], Curry._1(update, handlePropertyClick), /* array */[])));
+    }, ReasonReact.element( /* None */0, /* None */0, AdvancedFilter.make(DataUtils.getAllContainerTypes(data), DataUtils.getAllInterfaces(data), DataUtils.getAllPropertyNames(data), DataUtils.getAllSuperTypes(data), state[/* isOpenedFilter */0], Curry._1(update, handleCloseFilter), Curry._1(update, handleApplyFilter), /* array */[])), ReasonReact.element( /* None */0, /* None */0, TypeListPanel.make(getSortedKeys(filteredData), Curry._1(update, handleTypeClick), Curry._1(update, handleOpenFilter), Curry._1(update, handleSearchChange), state[/* selectedKey */3], state[/* searchTypeTerm */2], /* array */[])), ReasonReact.element( /* None */0, /* None */0, ViewPanel.make(selectedType, state[/* selectedProperty */4], Curry._1(update, handlePropertyClick), /* array */[])));
   };
   newrecord[/* initialState */10] = function () {
     return (/* record */[

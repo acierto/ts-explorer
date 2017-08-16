@@ -75,6 +75,7 @@ let make ::data _children => {
     let selectedType = findTypeByKey filteredData key::state.selectedKey ();
     <div className=typeSystemPanelCls>
       <AdvancedFilter
+        containerTypes=(DataUtils.getAllContainerTypes data)
         interfaces=(DataUtils.getAllInterfaces data)
         propertyNames=(DataUtils.getAllPropertyNames data)
         superTypes=(DataUtils.getAllSuperTypes data)
