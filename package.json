@@ -1,6 +1,6 @@
 {
   "name": "ts-explorer",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "Type System explorer",
   "main": "bundledOutputs/typeSystem.js",
   "scripts": {
