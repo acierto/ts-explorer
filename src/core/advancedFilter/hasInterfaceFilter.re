@@ -1,4 +1,4 @@
-let doFilter data filters =>
+let doFilter filters data =>
   if (DataUtils.hasValue filters##hasInterface) {
     Array.fold_left
       (

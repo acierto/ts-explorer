@@ -77,6 +77,7 @@ let make ::data _children => {
       <AdvancedFilter
         interfaces=(DataUtils.getAllInterfaces data)
         propertyNames=(DataUtils.getAllPropertyNames data)
+        superTypes=(DataUtils.getAllSuperTypes data)
         isOpenedFilter=state.isOpenedFilter
         onApplyFilter=(update handleApplyFilter)
         onCloseFilter=(update handleCloseFilter)

@@ -13,4 +13,4 @@ type typeItem =
 
 type optionType = Js.t {. value : string, label : string};
 
-type filtersType = Js.t {. hasInterface : string, hasProperty: string};
+type filtersType = Js.t {. hasInterface : string, hasProperty: string, hasSupertype: string};

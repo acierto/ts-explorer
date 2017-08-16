@@ -2,6 +2,7 @@ open Glamor;
 
 type filterState = {
   hasInterfaceTerm: string,
+  hasSupertypeTerm: string,
   hasPropertyTerm: string
 };
 
@@ -19,7 +20,11 @@ external makeOption : label::string => value::string => unit => SharedTypes.opti
   "" [@@bs.obj];
 
 external makeFilters :
-  hasInterface::string => hasProperty::string => unit => SharedTypes.filtersType =
+  hasInterface::string =>
+  hasProperty::string =>
+  hasSupertype::string =>
+  unit =>
+  SharedTypes.filtersType =
   "" [@@bs.obj];
 
 let buttonsPanelCls = css [bottom "10px", position "absolute", right "10px"];
@@ -33,13 +38,16 @@ let headerCls = css [textAlign "center"];
 let handleHasInterfaceTermChange event {ReasonReact.state: state} =>
   ReasonReact.Update {...state, hasInterfaceTerm: (eventToObjectType event)##value};
 
+let handleHasSupertypeTermChange event {ReasonReact.state: state} =>
+  ReasonReact.Update {...state, hasSupertypeTerm: (eventToObjectType event)##value};
+
 let handleHasPropertyTermChange event {ReasonReact.state: state} =>
   ReasonReact.Update {...state, hasPropertyTerm: (eventToObjectType event)##value};
 
 let filterElementCls =
   css [
     Selector
-      "> .filter-label" [display "inline-block", lineHeight "35px", verticalAlign "text-bottom"],
+      "> .filter-label" [display "inline-block", lineHeight "35px", verticalAlign "text-bottom", width "150px"],
     Selector
       "> .filter-label > span"
       [
@@ -55,14 +63,26 @@ let filterElementCls =
 let createOptions values => Array.map (fun value => makeOption label::value ::value ()) values;
 
 let handleApply fn st _ =>
-  fn @@ makeFilters hasInterface::st.hasInterfaceTerm hasProperty::st.hasPropertyTerm ();
+  fn @@
+  makeFilters
+    hasInterface::st.hasInterfaceTerm
+    hasSupertype::st.hasSupertypeTerm
+    hasProperty::st.hasPropertyTerm
+    ();
 
 let filterLabelElement labelText =>
   <span className="filter-label"> <span> (ReasonReact.stringToElement labelText) </span> </span>;
 
-let make ::interfaces ::propertyNames ::isOpenedFilter ::onCloseFilter ::onApplyFilter _children => {
+let make
+    ::interfaces
+    ::propertyNames
+    ::superTypes
+    ::isOpenedFilter
+    ::onCloseFilter
+    ::onApplyFilter
+    _children => {
   ...component,
-  initialState: fun () => {hasInterfaceTerm: "", hasPropertyTerm: ""},
+  initialState: fun () => {hasInterfaceTerm: "", hasPropertyTerm: "", hasSupertypeTerm: ""},
   render: fun {state, update} =>
     <ReactModal contentLabel="Filter" isOpen=isOpenedFilter>
       <h3 className=headerCls> (ReasonReact.stringToElement "Advanced Filter") </h3>
@@ -73,6 +93,15 @@ let make ::interfaces ::propertyNames ::isOpenedFilter ::onCloseFilter ::onApply
           value=state.hasInterfaceTerm
           options=(createOptions interfaces)
           onChange=(update handleHasInterfaceTermChange)
+        />
+      </div>
+      <div className=filterElementCls>
+        (filterLabelElement "Has supertype")
+        <ReactSelect
+          name="has-supertype"
+          value=state.hasSupertypeTerm
+          options=(createOptions superTypes)
+          onChange=(update handleHasSupertypeTermChange)
         />
       </div>
       <div className=filterElementCls>
