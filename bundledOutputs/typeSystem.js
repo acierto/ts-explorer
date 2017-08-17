@@ -22660,7 +22660,8 @@ function getTypeDetails(typeDescriptor, _) {
     }, /* :: */["properties",
     /* :: */["superTypes",
     /* :: */["interfaces",
-    /* [] */0]]]);
+    /* :: */["type",
+    /* [] */0]]]]);
     if (match !== 0) {
       return acc;
     } else {
