@@ -22658,7 +22658,7 @@ function getTypeDetails(typeDescriptor, _) {
     var match = List.exists(function (param) {
       return +(key === param);
     }, /* :: */["properties",
-    /* :: */["supertypes",
+    /* :: */["superTypes",
     /* :: */["interfaces",
     /* [] */0]]]);
     if (match !== 0) {
