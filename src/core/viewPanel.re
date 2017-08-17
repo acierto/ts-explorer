@@ -26,7 +26,7 @@ let sortProperties itemProperties => {
 
 let getTypeDetails typeDescriptor () => {
   let isEqual key item => key === item;
-  let excludedItems = ["properties", "supertypes", "interfaces"];
+  let excludedItems = ["properties", "superTypes", "interfaces"];
   let descriptorEtries = entries typeDescriptor;
   Array.fold_left
     (
