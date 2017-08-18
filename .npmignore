@@ -6,6 +6,7 @@ src/
 ghPages/
 !bundledOutputs
 bundledOutputs/testSystem.js
+bundledOutputs/xld-index.html
 bsconfig.json
 gulpfile.babel.js
 .babelrc
